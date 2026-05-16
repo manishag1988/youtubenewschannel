@@ -73,4 +73,5 @@ def setup_logger(name: str = None) -> logging.Logger:
 
 def get_logger(name: str = None) -> logging.Logger:
     """Get or create logger"""
-    return logging.getLogger(name or config.logging.PROJECT_NAME)
+    project_name = getattr(config.logging, 'PROJECT_NAME', 'YouTubeNewsAutomator')
+    return logging.getLogger(name or project_name)
