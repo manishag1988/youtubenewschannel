@@ -50,15 +50,6 @@ class TTSMP3Provider(TTSProvider):
         "emma": "Emma",
     }
 
-def __init__(self, api_key: str = None, rate_limiter: RateLimiter = None):
-        self.rate_limiter = rate_limiter or RateLimiter()
-
-    def generate(self, text: str, voice: str = "adam") -> bytes:
-        """Generate using SoundTools (Kokoro model)"""
-        logger.warning("SoundTools requires browser-based interaction - skipping")
-        raise Exception("SoundTools requires browser interaction")
-
-
 class SoundToolsProvider(TTSProvider):
     """SoundTools browser-based TTS"""
 
