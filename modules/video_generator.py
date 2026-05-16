@@ -326,6 +326,8 @@ class VideoGenerator:
 
         providers.append(FreeAIPProvider(self.rate_limiter))
 
+        providers.append(LocalVideoProvider(self.rate_limiter))
+
         providers.append(PlaceholderProvider())
 
         return providers
