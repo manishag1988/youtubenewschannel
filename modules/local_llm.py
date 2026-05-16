@@ -110,7 +110,9 @@ Include [B-ROLL: description] for visual suggestions.
 
         # Fallback to template
         logger.info("Using template-based script generation")
-        return self.fallback.generate_script(f"Write a script about {len(stories)} tech news stories")
+        prompt = f"Write a script about {len(stories)} tech news stories"
+        response = self.fallback.generate(prompt)
+        return self._parse_to_script(response, video_title, stories)
 
     def _parse_to_script(self, text: str, title: str, stories) -> object:
         """Parse LLM response to Script object"""
