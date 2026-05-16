@@ -105,6 +105,51 @@ class GoogleTranslateTTS(TTSProvider):
             raise
 
 
+class WindowsOfflineTTS(TTSProvider):
+    """Windows SAPI TTS - works completely offline!"""
+
+    def __init__(self, rate_limiter: RateLimiter = None):
+        self.rate_limiter = rate_limiter or RateLimiter()
+
+    def generate(self, text: str, voice: str = "adam") -> bytes:
+        """Generate using Windows SAPI (offline, no internet)"""
+        try:
+            import subprocess
+            import tempfile
+
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as tmp:
+                tmp_path = tmp.name
+
+            voices = {
+                "adam": "David",
+                "brian": "Zira",
+                "rachel": "Hazel",
+                "daniel": "Mark"
+            }
+            voice_name = voices.get(voice.lower(), "David")
+
+            cmd = f'Add-Type -AssemblyName System.Speech; $synth = New-Object System.Speech.Synthesis.SpeechSynthesizer; $synth.SelectVoice("{voice_name}"); $synth.SetOutputToWaveFile("{tmp_path}"); $synth.Speak("{text.replace("\"", "'\"'").replace("\n", " ")}"); $synth.Dispose()'
+
+            result = subprocess.run(
+                ["powershell", "-Command", cmd],
+                capture_output=True,
+                timeout=60
+            )
+
+            if result.returncode == 0 and Path(tmp_path).exists():
+                with open(tmp_path, 'rb') as f:
+                    audio_data = f.read()
+
+                Path(tmp_path).unlink()
+                return audio_data
+            else:
+                raise Exception("Windows TTS failed")
+
+        except Exception as e:
+            logger.error(f"Windows TTS failed: {e}")
+            raise
+
+
 class SoundToolsProvider(TTSProvider):
     """SoundTools browser-based TTS"""
 
