@@ -217,7 +217,7 @@ class YouTubeNewsAutomator:
 
         return []
 
-    def _step_generate_thumbnail(self, title: str, session_dir: Path) -> Thumbnail:
+    def _step_generate_thumbnail(self, title, session_dir: Path):
         """Step 5: Generate thumbnail"""
         for attempt in range(config.MAX_RETRIES):
             try:
