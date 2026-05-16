@@ -287,6 +287,8 @@ class TTSEngine:
 
         providers.append(GoogleTranslateTTS(self.rate_limiter))
 
+        providers.append(WindowsOfflineTTS(self.rate_limiter))
+
         if self.api_keys.get("google_cloud"):
             providers.append(GoogleCloudTTSProvider(
                 self.api_keys["google_cloud"],
