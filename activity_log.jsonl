@@ -36,3 +36,11 @@
 {"timestamp": "2026-05-16 16:13:51.891", "level": "INFO", "source": "main", "message": "\n[STEP 4/6] Generating video clips..."}
 {"timestamp": "2026-05-16 16:13:59.803", "level": "INFO", "source": "modules.video_generator", "message": "Generated clip 1: clip_0_1778928239.gif"}
 {"timestamp": "2026-05-16 16:14:08.212", "level": "INFO", "source": "modules.video_generator", "message": "Generated clip 2: clip_1_1778928248.gif"}
+{"timestamp": "2026-05-16 16:14:16.925", "level": "INFO", "source": "modules.video_generator", "message": "Generated clip 3: clip_2_1778928256.gif"}
+{"timestamp": "2026-05-16 16:14:16.926", "level": "INFO", "source": "main", "message": "Generated 3 video clips"}
+{"timestamp": "2026-05-16 16:14:16.927", "level": "INFO", "source": "main", "message": "\n[STEP 5/6] Generating thumbnail..."}
+{"timestamp": "2026-05-16 16:14:16.961", "level": "INFO", "source": "modules.thumbnail", "message": "Generated thumbnail: thumbnail_0_1778928256.png"}
+{"timestamp": "2026-05-16 16:14:16.962", "level": "INFO", "source": "main", "message": "Thumbnail generated: thumbnail_0_1778928256.png"}
+{"timestamp": "2026-05-16 16:14:16.963", "level": "INFO", "source": "main", "message": "\n[STEP 6/6] Assembling final video..."}
+{"timestamp": "2026-05-16 16:14:16.965", "level": "INFO", "source": "modules.video_editor", "message": "Starting video assembly for CapCut import..."}
+{"timestamp": "2026-05-16 16:14:16.968", "level": "INFO", "source": "modules.video_editor", "message": "Creating background animation frames..."}
