@@ -109,9 +109,11 @@ class LocalVideoGenerator:
         self.rate_limiter = rate_limiter or RateLimiter()
         self.local_sd = LocalSD()
         self.comfy = ComfyUI()
+        self.output_dir = None
 
-    def generate_clips(self, prompts: list, count: int = 3) -> list:
+    def generate_clips(self, prompts: list, count: int = 3, output_dir: Path = None) -> list:
         """Generate video clips - try local SD, then fallback to PIL"""
+        self.output_dir = output_dir or Path(config.OUTPUT_DIR)
         clips = []
 
         # Try local Stable Diffusion
@@ -142,7 +144,7 @@ class LocalVideoGenerator:
                     first_img = Image.open(io.BytesIO(images[0]))
                     frames = [Image.open(io.BytesIO(img)) for img in images]
 
-                    output_path = Path(config.OUTPUT_DIR) / f"clip_{i}_{int(time.time())}.gif"
+                    output_path = self.output_dir / f"clip_{i}_{int(time.time())}.gif"
                     frames[0].save(output_path, save_all=True, append_images=frames[1:],
                                   duration=100, loop=0)
 
@@ -184,7 +186,7 @@ class LocalVideoGenerator:
 
                 frames.append(img)
 
-            output_path = Path(config.OUTPUT_DIR) / f"clip_{i}_{int(time.time())}.gif"
+            output_path = self.output_dir / f"clip_{i}_{int(time.time())}.gif"
             frames[0].save(output_path, save_all=True, append_images=frames[1:],
                           duration=100, loop=0)
 
@@ -209,10 +211,10 @@ class VideoGenerator:
         self.api_keys = api_keys or {}
         self.generator = LocalVideoGenerator(api_keys, rate_limiter)
 
-    def generate_clips(self, prompts: list, count: int = 3) -> list:
-        return self.generator.generate_clips(prompts, count)
+    def generate_clips(self, prompts: list, count: int = 3, output_dir: Path = None) -> list:
+        return self.generator.generate_clips(prompts, count, output_dir)
 
-    def generate_from_script(self, script_text: str, clip_count: int = 3) -> list:
+    def generate_from_script(self, script_text: str, clip_count: int = 3, output_dir: Path = None) -> list:
         import re
         brolls = re.findall(r'\[B-ROLL:([^\]]+)\]', script_text, re.IGNORECASE)
-        return self.generate_clips(brolls or ["tech news"], clip_count)
+        return self.generate_clips(brolls or ["tech news"], clip_count, output_dir)

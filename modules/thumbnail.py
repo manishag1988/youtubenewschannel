@@ -66,9 +66,12 @@ class ThumbnailGenerator:
         self.width = config.thumbnail.WIDTH
         self.height = config.thumbnail.HEIGHT
         self.generator = LocalThumbnailGenerator()
+        self.output_dir = None
 
-    def generate(self, title: str, prompt: str = None, count: int = 1) -> List[Thumbnail]:
+    def generate(self, title: str, prompt: str = None, count: int = 1, output_dir: Path = None) -> List[Thumbnail]:
         """Generate thumbnail(s)"""
+        self.output_dir = output_dir or Path(config.OUTPUT_DIR)
+
         if prompt is None:
             prompt = f"YouTube thumbnail for: {title}"
 
@@ -79,7 +82,7 @@ class ThumbnailGenerator:
                 image_data = self.generator.generate(title, prompt)
 
                 filename = f"thumbnail_{i}_{int(time.time())}.png"
-                output_path = Path(config.OUTPUT_DIR) / filename
+                output_path = self.output_dir / filename
                 output_path.write_bytes(image_data)
 
                 thumbnails.append(Thumbnail(

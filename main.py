@@ -106,7 +106,7 @@ class YouTubeNewsAutomator:
         result = WorkflowResult()
         result.start_time = datetime.now()
 
-        session_name = f"video_{result.start_time.strftime('%Y%m%d_%H%M%S')}"
+        session_name = f"final_{result.start_time.strftime('%Y%m%d_%H%M%S')}"
         result.session_dir = self.file_manager.create_session_dir(session_name)
 
         print("=" * 60, flush=True)
@@ -127,7 +127,7 @@ class YouTubeNewsAutomator:
             print(f"Audio generated: {result.audio.duration:.1f}s", flush=True)
 
             print("\n[STEP 4/6] Generating video clips...", flush=True)
-            result.video_clips = self._step_generate_video(result.script)
+            result.video_clips = self._step_generate_video(result.script, result.session_dir)
             print(f"Generated {len(result.video_clips)} video clips", flush=True)
 
             print("\n[STEP 5/6] Generating thumbnail...", flush=True)
@@ -211,7 +211,7 @@ class YouTubeNewsAutomator:
 
         raise Exception("Audio generation failed")
 
-    def _step_generate_video(self, script):
+    def _step_generate_video(self, script, session_dir: Path):
         """Step 4: Generate video clips from script"""
         prompts = script.broll_prompts if script.broll_prompts else []
         if not prompts:
@@ -219,7 +219,7 @@ class YouTubeNewsAutomator:
 
         for attempt in range(config.MAX_RETRIES):
             try:
-                clips = self.video_generator.generate_clips(prompts, count=3)
+                clips = self.video_generator.generate_clips(prompts, count=3, output_dir=session_dir)
                 if clips:
                     return clips
             except Exception as e:
@@ -231,7 +231,7 @@ class YouTubeNewsAutomator:
         """Step 5: Generate thumbnail"""
         for attempt in range(config.MAX_RETRIES):
             try:
-                thumbnail = self.thumbnail_generator.generate(title, count=1)
+                thumbnail = self.thumbnail_generator.generate(title, count=1, output_dir=session_dir)
                 if thumbnail:
                     return thumbnail[0]
             except Exception as e:
@@ -248,7 +248,7 @@ class YouTubeNewsAutomator:
                 final_video = self.video_editor.assemble(
                     audio_path,
                     video_clips=clip_paths,
-                    output_name=f"final_{int(time.time())}"
+                    output_dir=session_dir
                 )
                 if final_video:
                     return final_video

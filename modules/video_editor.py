@@ -39,7 +39,7 @@ class VideoEditor:
         audio_path: Path,
         video_clips: List[Path] = None,
         images: List[Path] = None,
-        output_name: str = None
+        output_dir: Path = None
     ) -> FinalVideo:
         """
         Assemble final video from components
@@ -47,11 +47,10 @@ class VideoEditor:
         """
         logger.info("Starting video assembly for CapCut import...")
 
-        if output_name is None:
-            output_name = f"capcut_project_{int(time.time())}"
+        if output_dir is None:
+            output_dir = Path(config.OUTPUT_DIR) / f"final_{int(time.time())}"
 
-        session_dir = Path(config.OUTPUT_DIR) / output_name
-        session_dir.mkdir(exist_ok=True)
+        output_dir.mkdir(parents=True, exist_ok=True)
 
         try:
             from PIL import Image, ImageDraw
@@ -81,7 +80,7 @@ class VideoEditor:
 
             frames.append(img)
 
-        bg_path = session_dir / "background_loop.gif"
+        bg_path = output_dir / "background_loop.gif"
         frames[0].save(
             str(bg_path),
             save_all=True,
@@ -91,7 +90,7 @@ class VideoEditor:
         )
         logger.info(f"Created background: {bg_path.name}")
 
-        title_path = session_dir / "title_card.png"
+        title_path = output_dir / "title_card.png"
         title_img = Image.new('RGB', (width, height), color=(20, 20, 35))
         title_draw = ImageDraw.Draw(title_img)
         title_draw.rectangle([0, 0, width, height], outline=(100, 150, 255), width=5)
@@ -101,11 +100,11 @@ class VideoEditor:
         logger.info(f"Created title card: {title_path.name}")
 
         if audio_path and audio_path.exists():
-            audio_dest = session_dir / "voiceover.mp3"
+            audio_dest = output_dir / "voiceover.mp3"
             shutil.copy2(audio_path, audio_dest)
             logger.info(f"Copied audio: {audio_dest.name}")
 
-        file_list = session_dir / "IMPORT_THIS_INTO_CAPCUT.txt"
+        file_list = output_dir / "IMPORT_THIS_INTO_CAPCUT.txt"
         with open(file_list, 'w') as f:
             f.write("CAPCUT IMPORT GUIDE\n")
             f.write("=" * 40 + "\n\n")
@@ -122,12 +121,12 @@ class VideoEditor:
             f.write("5. Add transitions, text overlays, export!\n\n")
             f.write("=" * 40 + "\n")
             f.write("Your files are ready in:\n")
-            f.write(f"{session_dir}\n")
+            f.write(f"{output_dir}\n")
 
         logger.info(f"Created import guide: {file_list.name}")
 
         return FinalVideo(
-            path=session_dir,
+            path=output_dir,
             duration=60.0,
             resolution=f"{width}x{height}",
             format="folder"
