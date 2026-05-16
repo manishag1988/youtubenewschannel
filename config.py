@@ -247,4 +247,6 @@ class GlobalConfig:
     OUTPUT_DIR = BASE_DIR / "outputs"
     OUTPUT_DIR.mkdir(exist_ok=True)
 
+    BASE_DIR = BASE_DIR
+
 config = GlobalConfig()
