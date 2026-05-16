@@ -51,16 +51,27 @@ def update_changelog():
             content = f.read()
 
         today_header = f"## {date_str}"
-        section = f"\n{today_header}\n{entry}\n"
         marker = '---\n'
 
-        # Insert after the --- marker (before version history)
-        idx = content.find(marker)
-        if idx != -1:
-            idx += len(marker)
-            content = content[:idx] + section + content[idx:]
+        # Check if today's section already exists
+        if today_header in content:
+            # Append entry inside existing today's section
+            # Find the end of today's section (next ## or end of file)
+            today_idx = content.index(today_header)
+            next_section = content.find('\n## ', today_idx + len(today_header))
+            if next_section != -1:
+                content = content[:next_section] + entry + content[next_section:]
+            else:
+                content += entry
         else:
-            content += '\n' + section
+            # Insert after the --- marker (before version history)
+            section = f"\n{today_header}\n{entry}\n"
+            idx = content.find(marker)
+            if idx != -1:
+                idx += len(marker)
+                content = content[:idx] + section + content[idx:]
+            else:
+                content += '\n' + section
 
         with open(CHANGELOG_PATH, 'w', encoding='utf-8') as f:
             f.write(content)
