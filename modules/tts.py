@@ -55,12 +55,15 @@ class TTSMP3Provider(TTSProvider):
 
     def generate(self, text: str, voice: str = "adam") -> bytes:
         """Generate audio using TTSMP3 (free, no signup)"""
+        import urllib.parse
+
         voice_id = self.VOICE_MAP.get(voice.lower(), "Adam")
 
         try:
             response = requests.post(
-                "https://ttsmp3.org/sapi/",
-                data={"text": text, "voice": voice_id, "source": "ttsmp3"},
+                "https://ttsmp3.com/sapi/",
+                data=urllib.parse.urlencode({"text": text, "voice": voice_id}),
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
                 timeout=60
             )
 
@@ -71,6 +74,34 @@ class TTSMP3Provider(TTSProvider):
 
         except Exception as e:
             logger.error(f"TTSMP3 generation failed: {e}")
+            raise
+
+
+class GoogleTranslateTTS(TTSProvider):
+    """Google Translate TTS - always free"""
+
+    def __init__(self, rate_limiter: RateLimiter = None):
+        self.rate_limiter = rate_limiter or RateLimiter()
+
+    def generate(self, text: str, voice: str = "adam") -> bytes:
+        """Generate using Google Translate TTS"""
+        import urllib.parse
+
+        text = text[:200]
+        encoded_text = urllib.parse.quote(text)
+
+        url = f"https://translate.google.com/translate_tts?ie=UTF-8&q={encoded_text}&tl=en-US&client=tw-ob"
+
+        try:
+            response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
+
+            if response.status_code == 200 and response.content:
+                return response.content
+            else:
+                raise Exception(f"Google TTS returned {response.status_code}")
+
+        except Exception as e:
+            logger.error(f"Google TTS failed: {e}")
             raise
 
 
