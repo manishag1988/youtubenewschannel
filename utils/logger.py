@@ -37,7 +37,8 @@ def setup_logger(name: str = None) -> logging.Logger:
     Returns:
         Configured logger instance
     """
-    logger = logging.getLogger(name or config.logging.PROJECT_NAME)
+    project_name = getattr(config.logging, 'PROJECT_NAME', 'YouTubeNewsAutomator')
+    logger = logging.getLogger(name or project_name)
 
     if logger.handlers:
         return logger
