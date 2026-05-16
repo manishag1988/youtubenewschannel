@@ -119,6 +119,12 @@ class YouTubeNewsAutomator:
         session_name = f"video_{result.start_time.strftime('%Y%m%d_%H%M%S')}"
         result.session_dir = self.file_manager.create_session_dir(session_name)
 
+        session_log_path = result.session_dir / "session.log"
+        session_activity = ActivityLogger(session_log_path)
+
+        session_activity.info("main", "Session started", session=session_name)
+        self.activity_logger.info("main", "Workflow started", session=session_name)
+
         logger.info("=" * 60)
         logger.info("STARTING FULL AUTOMATED WORKFLOW")
         logger.info("=" * 60)
@@ -127,22 +133,27 @@ class YouTubeNewsAutomator:
             logger.info("\n[STEP 1/6] Gathering news...")
             result.news = self._step_gather_news()
             logger.info(f"Gathered {len(result.news)} stories")
+            session_activity.info("news_gatherer", f"Gathered {len(result.news)} stories", count=len(result.news))
 
             logger.info("\n[STEP 2/6] Writing script...")
             result.script = self._step_write_script(result.news)
             logger.info(f"Script written: {result.script.word_count} words")
+            session_activity.info("script_writer", f"Script written: {result.script.word_count} words", word_count=result.script.word_count, title=result.script.title)
 
             logger.info("\n[STEP 3/6] Generating voiceover...")
             result.audio = self._step_generate_audio(result.script, result.session_dir)
             logger.info(f"Audio generated: {result.audio.duration:.1f}s")
+            session_activity.info("tts", f"Audio generated: {result.audio.duration:.1f}s", duration=result.audio.duration)
 
             logger.info("\n[STEP 4/6] Generating video clips...")
             result.video_clips = self._step_generate_video(result.script)
             logger.info(f"Generated {len(result.video_clips)} video clips")
+            session_activity.info("video_generator", f"Generated {len(result.video_clips)} video clips", count=len(result.video_clips))
 
             logger.info("\n[STEP 5/6] Generating thumbnail...")
             result.thumbnail = self._step_generate_thumbnail(result.script.title, result.session_dir)
             logger.info(f"Thumbnail generated: {result.thumbnail.path.name}")
+            session_activity.info("thumbnail", f"Thumbnail generated: {result.thumbnail.path.name}")
 
             logger.info("\n[STEP 6/6] Assembling final video...")
             result.final_video = self._step_assemble_video(
@@ -151,6 +162,7 @@ class YouTubeNewsAutomator:
                 result.session_dir
             )
             logger.info(f"Final video assembled: {result.final_video.path.name}")
+            session_activity.info("video_editor", f"Final video assembled: {result.final_video.path.name}")
 
             result.success = True
             logger.info("\n" + "=" * 60)
@@ -160,9 +172,13 @@ class YouTubeNewsAutomator:
         except Exception as e:
             error_msg = f"Workflow failed: {e}"
             logger.error(error_msg)
+            session_activity.error("main", error_msg)
+            self.activity_logger.error("main", error_msg, session=session_name)
             result.errors.append(error_msg)
 
         result.end_time = datetime.now()
+        session_activity.info("main", "Session completed", success=result.success, duration_seconds=result.duration)
+        self.activity_logger.info("main", "Workflow completed", session=session_name, success=result.success, duration_seconds=result.duration)
         self._log_summary(result)
 
         return result
