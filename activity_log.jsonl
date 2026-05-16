@@ -140,3 +140,56 @@
 {"timestamp": "2026-05-16 18:34:29.697", "level": "INFO", "source": "main", "message": "\n✅ Workflow completed successfully!"}
 {"timestamp": "2026-05-16 18:34:29.698", "level": "INFO", "source": "main", "message": "📁 Output directory: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_183226"}
 {"timestamp": "2026-05-16 18:34:29.699", "level": "INFO", "source": "run_with_logging", "message": "Process exited", "detail": {"exit_code": 0}}
+{"timestamp": "2026-05-16 18:54:28.503", "level": "INFO", "source": "run_with_logging", "message": "Activity logging wrapper started", "detail": {"cwd": "D:\\AIprojects\\youtubenewschannel"}}
+{"timestamp": "2026-05-16 18:54:28.503", "level": "INFO", "source": "run_with_logging", "message": "Log interceptor installed"}
+{"timestamp": "2026-05-16 18:54:29.300", "level": "INFO", "source": "run_with_logging", "message": "Patched run_full_workflow"}
+{"timestamp": "2026-05-16 18:54:29.301", "level": "INFO", "source": "run_with_logging", "message": "Launching main workflow", "detail": {"log_file": "D:\\AIprojects\\youtubenewschannel\\activity_log.jsonl", "python": "3.13.7"}}
+{"timestamp": "2026-05-16 18:54:29.301", "level": "INFO", "source": "main", "message": "Starting YouTube Tech News Automator..."}
+{"timestamp": "2026-05-16 18:54:29.302", "level": "INFO", "source": "main", "message": "No API keys - using local services only"}
+{"timestamp": "2026-05-16 18:54:29.304", "level": "INFO", "source": "main", "message": "Initializing production modules..."}
+{"timestamp": "2026-05-16 18:54:29.304", "level": "INFO", "source": "main", "message": "All modules initialized"}
+{"timestamp": "2026-05-16 18:54:31.359", "level": "INFO", "source": "main", "message": "✅ Local LLM (Ollama) is available"}
+{"timestamp": "2026-05-16 18:54:32.305", "level": "INFO", "source": "comtypes.client._code_cache", "message": "Imported existing <module 'comtypes.gen' from 'C:\\\\Users\\\\manish\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\Lib\\\\site-packages\\\\comtypes\\\\gen\\\\__init__.py'>"}
+{"timestamp": "2026-05-16 18:54:32.307", "level": "INFO", "source": "comtypes.client._code_cache", "message": "Using writeable comtypes cache directory: 'C:\\Users\\manish\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\comtypes\\gen'"}
+{"timestamp": "2026-05-16 18:54:32.776", "level": "INFO", "source": "main", "message": "✅ Local TTS (Piper) is available"}
+{"timestamp": "2026-05-16 18:54:34.955", "level": "INFO", "source": "main", "message": "ℹ️  Install Stable Diffusion for local video generation"}
+{"timestamp": "2026-05-16 18:54:34.956", "level": "INFO", "source": "main", "message": "YouTube News Automator initialized"}
+{"timestamp": "2026-05-16 18:54:34.958", "level": "INFO", "source": "YouTubeNewsAutomator", "message": "Created session directory: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_185434"}
+{"timestamp": "2026-05-16 18:54:35.958", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from techcrunch"}
+{"timestamp": "2026-05-16 18:54:37.374", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from theverge"}
+{"timestamp": "2026-05-16 18:54:38.242", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from arstechnica"}
+{"timestamp": "2026-05-16 18:54:39.351", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from wired"}
+{"timestamp": "2026-05-16 18:54:40.344", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from engadget"}
+{"timestamp": "2026-05-16 18:54:44.232", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from feedburner"}
+{"timestamp": "2026-05-16 18:54:47.009", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from nytimes"}
+{"timestamp": "2026-05-16 18:54:49.037", "level": "INFO", "source": "modules.local_llm", "message": "Using local LLM (Ollama) for script generation"}
+{"timestamp": "2026-05-16 18:55:57.356", "level": "INFO", "source": "modules.local_tts", "message": "Using local Piper TTS"}
+{"timestamp": "2026-05-16 18:56:01.088", "level": "INFO", "source": "modules.local_video", "message": "Using PIL fallback for video generation"}
+{"timestamp": "2026-05-16 18:56:04.485", "level": "INFO", "source": "modules.local_video", "message": "Generated PIL clip: clip_0_1778937961.gif"}
+{"timestamp": "2026-05-16 18:56:07.594", "level": "INFO", "source": "modules.local_video", "message": "Generated PIL clip: clip_1_1778937964.gif"}
+{"timestamp": "2026-05-16 18:56:10.708", "level": "INFO", "source": "modules.local_video", "message": "Generated PIL clip: clip_2_1778937967.gif"}
+{"timestamp": "2026-05-16 18:56:10.742", "level": "INFO", "source": "modules.thumbnail", "message": "Generated thumbnail: thumbnail_0_1778937970.png"}
+{"timestamp": "2026-05-16 18:56:10.744", "level": "INFO", "source": "modules.video_editor", "message": "Starting video assembly for CapCut import..."}
+{"timestamp": "2026-05-16 18:56:29.300", "level": "INFO", "source": "modules.video_editor", "message": "Created background: background_loop.gif"}
+{"timestamp": "2026-05-16 18:56:29.345", "level": "INFO", "source": "modules.video_editor", "message": "Created title card: title_card.png"}
+{"timestamp": "2026-05-16 18:56:29.352", "level": "INFO", "source": "modules.video_editor", "message": "Copied audio: voiceover.mp3"}
+{"timestamp": "2026-05-16 18:56:29.353", "level": "INFO", "source": "modules.video_editor", "message": "Created import guide: IMPORT_THIS_INTO_CAPCUT.txt"}
+{"timestamp": "2026-05-16 18:56:29.424", "level": "INFO", "source": "main", "message": "Final video assembled: final_1778937970"}
+{"timestamp": "2026-05-16 18:56:29.425", "level": "INFO", "source": "main", "message": "\n============================================================"}
+{"timestamp": "2026-05-16 18:56:29.427", "level": "INFO", "source": "main", "message": "WORKFLOW COMPLETED SUCCESSFULLY"}
+{"timestamp": "2026-05-16 18:56:29.428", "level": "INFO", "source": "main", "message": "============================================================"}
+{"timestamp": "2026-05-16 18:56:29.429", "level": "INFO", "source": "main", "message": "\n============================================================"}
+{"timestamp": "2026-05-16 18:56:29.430", "level": "INFO", "source": "main", "message": "WORKFLOW SUMMARY"}
+{"timestamp": "2026-05-16 18:56:29.430", "level": "INFO", "source": "main", "message": "============================================================"}
+{"timestamp": "2026-05-16 18:56:29.431", "level": "INFO", "source": "main", "message": "Status: SUCCESS"}
+{"timestamp": "2026-05-16 18:56:29.432", "level": "INFO", "source": "main", "message": "Duration: 114.5 seconds"}
+{"timestamp": "2026-05-16 18:56:29.433", "level": "INFO", "source": "main", "message": "Stories: 8"}
+{"timestamp": "2026-05-16 18:56:29.434", "level": "INFO", "source": "main", "message": "Script: Tech News Update"}
+{"timestamp": "2026-05-16 18:56:29.434", "level": "INFO", "source": "main", "message": "Audio: 570.965125s"}
+{"timestamp": "2026-05-16 18:56:29.435", "level": "INFO", "source": "main", "message": "Video clips: 3"}
+{"timestamp": "2026-05-16 18:56:29.436", "level": "INFO", "source": "main", "message": "Thumbnail: thumbnail_0_1778937970.png"}
+{"timestamp": "2026-05-16 18:56:29.437", "level": "INFO", "source": "main", "message": "Final video: final_1778937970"}
+{"timestamp": "2026-05-16 18:56:29.437", "level": "INFO", "source": "workflow", "message": "Workflow completed", "detail": {"success": true, "duration_s": 114.5, "stories": 8, "errors": 0}}
+{"timestamp": "2026-05-16 18:56:29.438", "level": "INFO", "source": "main", "message": "\n✅ Workflow completed successfully!"}
+{"timestamp": "2026-05-16 18:56:29.439", "level": "INFO", "source": "main", "message": "📁 Output directory: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_185434"}
+{"timestamp": "2026-05-16 18:56:29.440", "level": "INFO", "source": "run_with_logging", "message": "Process exited", "detail": {"exit_code": 0}}

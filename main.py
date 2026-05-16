@@ -189,6 +189,15 @@ class YouTubeNewsAutomator:
 
     def _step_generate_audio(self, script, session_dir: Path):
         """Step 3: Convert script to audio"""
+        script_path = session_dir / "script.txt"
+        with open(script_path, 'w', encoding='utf-8') as f:
+            f.write(f"Title: {script.title}\n\n")
+            f.write(f"=== FULL SCRIPT ===\n\n{script.full_text}\n\n")
+            f.write(f"=== HOOK ===\n{script.hook}\n\n")
+            f.write(f"=== BODY ===\n{script.body}\n\n")
+            f.write(f"=== CALL TO ACTION ===\n{script.cta}\n")
+        print(f"Script saved to: {script_path}", flush=True)
+
         for attempt in range(config.MAX_RETRIES):
             try:
                 audio = self.tts_engine.generate(

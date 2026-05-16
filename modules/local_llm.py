@@ -91,13 +91,18 @@ Title: {video_title or "Tech News Update"}
 Stories:
 {story_text}
 
-Format:
-- Hook (10 sec): Catchy intro
-- Main content (100 sec): Cover each story naturally
-- Conclusion (20 sec): Call to action
+IMPORTANT: Write ONLY the narration text that will be spoken aloud. Do NOT include:
+- Camera directions like "gesture here" or "point to screen"
+- Timestamps or time markers
+- Stage directions
+- B-ROLL instructions or any text in brackets
 
-Write as if speaking to camera. Natural, conversational tone.
-Include [B-ROLL: description] for visual suggestions.
+Format (just the spoken words):
+- Opening (10 sec): Catchy hook like "Hey guys, here's what's happening in tech..."
+- Main content (100 sec): Cover each story in plain conversational English
+- Closing (20 sec): Quick call to action like "Thanks for watching, subscribe for more!"
+
+Write as if speaking directly to the camera. No formatting markers.
 """
 
                 response = self.local_llm.generate(prompt, max_tokens=800)
@@ -116,16 +121,26 @@ Include [B-ROLL: description] for visual suggestions.
 
     def _parse_to_script(self, text: str, title: str, stories) -> object:
         """Parse LLM response to Script object"""
+        import re
+
+        clean_text = text
+        broll_prompts = []
+
+        # Remove all bracket content like [B-ROLL: ...] or [gesture] etc
+        clean_text = re.sub(r'\[.*?\]', '', clean_text)
+        # Remove any remaining special markers
+        clean_text = re.sub(r'\([A-Za-z\s]+\)', '', clean_text)
+        # Clean up extra whitespace
+        clean_text = re.sub(r'\s+', ' ', clean_text).strip()
+
         class Script:
             def __init__(self):
                 self.title = title or "Tech News Update"
-                self.hook = text[:200] if text else "Welcome to tech news!"
-                self.body = text[200:] if text else "Today we're covering the latest tech stories..."
+                self.hook = clean_text[:200] if clean_text else "Welcome to tech news!"
+                self.body = clean_text[200:] if clean_text else "Today we're covering the latest tech stories..."
                 self.cta = "Thanks for watching! Subscribe for more."
-                self.full_text = text or "Welcome to tech news! Today we're covering the latest in technology."
-                self.broll_prompts = []
-                import re
-                self.broll_prompts = re.findall(r'\[B-ROLL:([^\]]+)\]', text, re.IGNORECASE)
+                self.full_text = clean_text or "Welcome to tech news! Today we're covering the latest in technology."
+                self.broll_prompts = broll_prompts
                 self.word_count = len(self.full_text.split())
                 self.estimated_duration = self.word_count // 2
 
