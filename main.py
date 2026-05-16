@@ -109,32 +109,32 @@ class YouTubeNewsAutomator:
         session_name = f"video_{result.start_time.strftime('%Y%m%d_%H%M%S')}"
         result.session_dir = self.file_manager.create_session_dir(session_name)
 
-        logger.info("=" * 60)
-        logger.info("STARTING FULL AUTOMATED WORKFLOW")
-        logger.info("=" * 60)
+        print("=" * 60, flush=True)
+        print("STARTING FULL AUTOMATED WORKFLOW", flush=True)
+        print("=" * 60, flush=True)
 
         try:
-            logger.info("\n[STEP 1/6] Gathering news...")
+            print("\n[STEP 1/6] Gathering news...", flush=True)
             result.news = self._step_gather_news()
-            logger.info(f"Gathered {len(result.news)} stories")
+            print(f"Gathered {len(result.news)} stories", flush=True)
 
-            logger.info("\n[STEP 2/6] Writing script...")
+            print("\n[STEP 2/6] Writing script...", flush=True)
             result.script = self._step_write_script(result.news)
-            logger.info(f"Script written: {result.script.word_count} words")
+            print(f"Script written: {result.script.word_count} words", flush=True)
 
-            logger.info("\n[STEP 3/6] Generating voiceover...")
+            print("\n[STEP 3/6] Generating voiceover...", flush=True)
             result.audio = self._step_generate_audio(result.script, result.session_dir)
-            logger.info(f"Audio generated: {result.audio.duration:.1f}s")
+            print(f"Audio generated: {result.audio.duration:.1f}s", flush=True)
 
-            logger.info("\n[STEP 4/6] Generating video clips...")
+            print("\n[STEP 4/6] Generating video clips...", flush=True)
             result.video_clips = self._step_generate_video(result.script)
-            logger.info(f"Generated {len(result.video_clips)} video clips")
+            print(f"Generated {len(result.video_clips)} video clips", flush=True)
 
-            logger.info("\n[STEP 5/6] Generating thumbnail...")
+            print("\n[STEP 5/6] Generating thumbnail...", flush=True)
             result.thumbnail = self._step_generate_thumbnail(result.script.title, result.session_dir)
-            logger.info(f"Thumbnail generated: {result.thumbnail.path.name}")
+            print(f"Thumbnail generated: {result.thumbnail.path.name}", flush=True)
 
-            logger.info("\n[STEP 6/6] Assembling final video...")
+            print("\n[STEP 6/6] Assembling final video...", flush=True)
             result.final_video = self._step_assemble_video(
                 result.audio.path,
                 result.video_clips,
