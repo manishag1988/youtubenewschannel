@@ -22,48 +22,48 @@ class AudioFile:
 
 
 class LocalTTS:
-    """Local TTS using Piper (lightweight, fast)"""
+    """Local TTS using pyttsx3 (Windows SAPI - free, works locally)"""
 
-    def __init__(self, voice: str = "en_US-lessac-medium"):
-        self.voice = voice
+    def __init__(self, voice: str = None):
+        self.voice = voice or "default"
 
     def is_available(self) -> bool:
-        """Check if Piper is installed"""
+        """Check if pyttsx3 is available"""
         try:
-            result = subprocess.run(["piper", "--help"], capture_output=True, timeout=5)
-            return result.returncode == 0
+            import pyttsx3
+            engine = pyttsx3.init()
+            return engine is not None
         except:
             return False
 
     def generate(self, text: str, output_path: Path = None) -> AudioFile:
-        """Generate audio using Piper"""
+        """Generate audio using Windows SAPI"""
         try:
+            import pyttsx3
+
             if output_path is None:
                 from datetime import datetime
                 output_path = Path(config.OUTPUT_DIR) / f"audio_{datetime.now().strftime('%Y%m%d_%H%M%S')}.wav"
 
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp:
-                tmp.write(text.encode('utf-8'))
-                tmp_path = tmp.name
+            engine = pyttsx3.init()
+            voices = engine.getProperty('voices')
+            if voices:
+                engine.setProperty('voice', voices[0].id)
+            engine.setProperty('rate', 150)
+            engine.setProperty('volume', 1.0)
 
-            result = subprocess.run(
-                ["piper", "--model", self.voice, "--input_file", tmp_path, "--output_file", str(output_path)],
-                capture_output=True,
-                timeout=60
-            )
-
-            os.unlink(tmp_path)
+            engine.save_to_file(text, str(output_path))
+            engine.runAndWait()
 
             if output_path.exists():
                 size = output_path.stat().st_size
                 duration = size / 16000.0
+                return AudioFile(path=output_path, duration=duration, voice=self.voice, service="Windows SAPI TTS")
 
-                return AudioFile(path=output_path, duration=duration, voice=self.voice, service="Piper TTS")
-
-            raise Exception("Piper failed to create audio")
+            raise Exception("Windows SAPI failed to create audio")
 
         except Exception as e:
-            logger.error(f"Piper TTS failed: {e}")
+            logger.error(f"Windows SAPI TTS failed: {e}")
             raise
 
 

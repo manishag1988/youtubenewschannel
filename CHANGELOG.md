@@ -346,3 +346,6 @@ All notable changes to this project will be documented in this file.
 
 ### auto: update 17:15
 - **odules/local_llm.py**: Modified
+
+### auto: update 17:18
+- **odules/local_tts.py**: Modified
