@@ -225,6 +225,56 @@ class FreeAIPProvider(VideoProvider):
         raise Exception("Free.ai generation timeout")
 
 
+class LocalVideoProvider(VideoProvider):
+    """Local video generation using PIL/moviepy"""
+
+    def __init__(self, rate_limiter: RateLimiter = None):
+        self.rate_limiter = rate_limiter or RateLimiter()
+
+    def generate(self, prompt: str, duration: int = 5) -> bytes:
+        """Generate simple animated video locally"""
+        logger.info(f"Creating local video for: {prompt[:50]}...")
+
+        try:
+            from PIL import Image, ImageDraw, ImageFont
+            import io
+
+            width, height = 1280, 720
+            frames = []
+
+            for i in range(duration * 10):
+                img = Image.new('RGB', (width, height), color=self._get_color(prompt, i))
+                draw = ImageDraw.Draw(img)
+
+                x = (i * 20) % width
+                y = height // 2 + int(100 * (i % 2))
+
+                draw.ellipse([x-50, y-50, x+50, y+50], fill=(255, 255, 255), outline=(0, 0, 0))
+
+                text = prompt[:40] if len(prompt) > 40 else prompt
+                draw.text((width//2 - 100, height - 50), text, fill=(255, 255, 255))
+
+                frames.append(img)
+
+            output = io.BytesIO()
+            frames[0].save(
+                output,
+                format='GIF',
+                save_all=True,
+                append_images=frames[1:],
+                duration=100,
+                loop=0
+            )
+            return output.getvalue()
+
+        except ImportError:
+            logger.warning("PIL not available, using placeholder")
+            raise Exception("PIL not available")
+        except Exception as e:
+            logger.error(f"Local video generation failed: {e}")
+            raise
+
+
 class PlaceholderProvider(VideoProvider):
     """Placeholder video for when no API is available"""
 
