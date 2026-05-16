@@ -234,3 +234,6 @@ All notable changes to this project will be documented in this file.
 
 ### auto: update 16:35
 - **modules/local_tts.py**: Added
+
+### auto: update 16:36
+- **modules/local_video.py**: Added
