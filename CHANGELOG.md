@@ -116,3 +116,6 @@ All notable changes to this project will be documented in this file.
 
 ### auto: update 15:43
 - **onfig.py**: Modified
+
+### auto: update 15:45
+- **tils/logger.py**: Modified
