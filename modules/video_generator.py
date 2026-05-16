@@ -243,7 +243,8 @@ class LocalVideoProvider(VideoProvider):
             frames = []
 
             for i in range(duration * 10):
-                img = Image.new('RGB', (width, height), color=self._get_color(prompt, i))
+                color = _get_bg_color(prompt, i)
+                img = Image.new('RGB', (width, height), color=color)
                 draw = ImageDraw.Draw(img)
 
                 x = (i * 20) % width
@@ -252,7 +253,10 @@ class LocalVideoProvider(VideoProvider):
                 draw.ellipse([x-50, y-50, x+50, y+50], fill=(255, 255, 255), outline=(0, 0, 0))
 
                 text = prompt[:40] if len(prompt) > 40 else prompt
-                draw.text((width//2 - 100, height - 50), text, fill=(255, 255, 255))
+                try:
+                    draw.text((width//2 - 100, height - 50), text, fill=(255, 255, 255))
+                except:
+                    pass
 
                 frames.append(img)
 
