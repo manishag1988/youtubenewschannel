@@ -41,45 +41,91 @@ class VideoEditor:
     ) -> FinalVideo:
         """
         Assemble final video from components
-
-        Args:
-            audio_path: Path to audio file
-            video_clips: List of video clip paths
-            images: List of image paths (for static visuals)
-            output_name: Custom output filename
-
-        Returns:
-            FinalVideo object
+        Creates CapCut-ready output with separate files
         """
-        logger.info("Starting video assembly...")
+        logger.info("Starting video assembly for CapCut import...")
 
         if output_name is None:
-            output_name = f"final_video_{int(time.time())}"
+            output_name = f"capcut_project_{int(time.time())}"
 
-        output_path = Path(config.OUTPUT_DIR) / f"{output_name}.{self.output_format}"
+        session_dir = Path(config.OUTPUT_DIR) / output_name
+        session_dir.mkdir(exist_ok=True)
 
         try:
-            result = self._assemble_with_moviepy(
-                audio_path,
-                video_clips,
-                images,
-                output_path
-            )
-            logger.info(f"Video assembled: {result.path}")
-            return result
-
+            from PIL import Image, ImageDraw, ImageFont
+            import io
         except ImportError:
-            logger.warning("moviepy not available, using fallback assembly")
-            return self._assemble_fallback(
-                audio_path,
-                video_clips,
-                images,
-                output_path
-            )
+            logger.error("PIL required for video generation")
+            raise Exception("PIL not available")
 
-        except Exception as e:
-            logger.error(f"Video assembly failed: {e}")
-            raise
+        width, height = 1920, 1080
+
+        logger.info("Creating background animation frames...")
+        frames = []
+        for i in range(60):
+            img = Image.new('RGB', (width, height), color=(15, 15, 25))
+            draw = ImageDraw.Draw(img)
+
+            for j in range(5):
+                x = ((i * 30) + j * 400) % (width + 200) - 100
+                y = height // 2 + int(50 * ((i + j) % 3))
+                size = 30 + j * 10
+                draw.ellipse([x-size, y-size, x+size, y+size],
+                           fill=(50 + j*30, 100 + j*20, 200), outline=(255, 255, 255), width=1)
+
+            text_y = height - 100
+            draw.text((50, 50), "Tech News", fill=(255, 255, 255))
+            draw.text((50, text_y), f"Frame {i+1}/60", fill=(150, 150, 150))
+
+            frames.append(img)
+
+        bg_path = session_dir / "background_loop.gif"
+        frames[0].save(
+            bg_path,
+            save_all=True,
+            append_images=frames[1:],
+            duration=100,
+            loop=0
+        )
+        logger.info(f"Created background: {bg_path.name}")
+
+        title_path = session_dir / "title_card.png"
+        title_img = Image.new('RGB', (width, height), color=(20, 20, 35))
+        title_draw = ImageDraw.Draw(title_img)
+        title_draw.rectangle([0, 0, width, height], outline=(100, 150, 255), width=5)
+        title_draw.text((width//2 - 200, height//2 - 50), "TECH NEWS", fill=(255, 255, 255))
+        title_draw.text((width//2 - 250, height//2 + 20), "Automated Video", fill=(200, 200, 200))
+        title_path.save(title_path)
+        logger.info(f"Created title card: {title_path.name}")
+
+        if audio_path and audio_path.exists():
+            import shutil
+            audio_dest = session_dir / "voiceover.mp3"
+            shutil.copy2(audio_path, audio_dest)
+            logger.info(f"Copied audio: {audio_dest.name}")
+
+        file_list = session_dir / "IMPORT_THIS_INTO_CAPCUT.txt"
+        with open(file_list, 'w') as f:
+            f.write("CAPCUT IMPORT GUIDE\n")
+            f.write("=" * 40 + "\n\n")
+            f.write("1. Open CapCut\n")
+            f.write("2. Click 'Import'\n")
+            f.write("3. Import these files in order:\n\n")
+            f.write(f"   - {title_path.name} (1st - intro)\n")
+            f.write(f"   - {bg_path.name} (background loop)\n")
+            f.write(f"   - voiceover.mp3 (your script)\n\n")
+            f.write("4. Arrange timeline:\n")
+            f.write("   Title -> Background (loop) -> Audio\n\n")
+            f.write("5. Add transitions, effects, and export!\n")
+
+        logger.info(f"Created import guide: {file_list.name}")
+
+        return FinalVideo(
+            path=session_dir,
+            duration=60.0,
+            resolution=f"{width}x{height}",
+            format="folder"
+        )
 
     def _assemble_with_moviepy(
         self,
