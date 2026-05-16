@@ -213,6 +213,10 @@ class VideoEditorConfig:
     OUTPUT_RESOLUTION = "1920x1080"
     OUTPUT_FPS = 30
 
+    EXPORT_SEPARATE_FILES = True
+    EXPORT_GIF_ANIMATION = True
+    EXPORT_STATIC_IMAGES = True
+
 class LoggingConfig:
     """Logging configuration"""
     LOG_LEVEL = "INFO"
