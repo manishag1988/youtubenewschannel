@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Optional, Dict, List
 
 from config import config
-from utils.logger import setup_logger, get_logger
+from utils.logger import setup_logger, get_logger, ActivityLogger, get_activity_logger
 from utils.rate_limiter import RateLimiter
 from utils.file_manager import FileManager
 
@@ -81,9 +81,11 @@ class YouTubeNewsAutomator:
 
         self.rate_limiter = RateLimiter()
         self.file_manager = FileManager(self.output_dir)
+        self.activity_logger = get_activity_logger()
 
         self._init_modules()
 
+        self.activity_logger.info("main", "YouTube News Automator initialized")
         logger.info("YouTube News Automator initialized")
 
     def _init_modules(self):
