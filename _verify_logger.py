@@ -8,12 +8,12 @@ from pathlib import Path
 
 al.configure(str(Path(__file__).parent / "activity_log.jsonl"))
 
-import logging
+# Set up logging like main() does
+logging.basicConfig(level=logging.INFO, force=True, format='%(message)s')
 
 original_log = logging.Logger._log
 
 def patched_log(self, level, msg, args, exc_info=None, extra=None, stack_info=False, stacklevel=1):
-    print(f"  _log called: level={level}, msg={msg!r}, args={args!r}, stacklevel={stacklevel}", flush=True)
     entry = original_log(self, level, msg, args, exc_info, extra, stack_info, stacklevel)
     try:
         source = self.name or 'root'
@@ -30,9 +30,7 @@ def patched_log(self, level, msg, args, exc_info=None, extra=None, stack_info=Fa
 logging.Logger._log = patched_log
 print("patched OK", flush=True)
 
-# Also patch info/warning to pass stacklevel correctly
 log = logging.getLogger('verify')
-print(f"logger isEnabledFor(20): {log.isEnabledFor(20)}", flush=True)
 log.info('Verify test message')
 print("logged OK", flush=True)
 
