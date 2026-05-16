@@ -71,13 +71,35 @@ class YouTubeNewsAutomator:
         logger.info("Initializing production modules...")
 
         self.news_gatherer = NewsGatherer(self.rate_limiter)
-        self.script_writer = ScriptWriter(self.api_keys, self.rate_limiter)
+        self.script_writer = get_script_writer(self.api_keys, self.rate_limiter)
         self.tts_engine = TTSEngine(self.api_keys, self.rate_limiter)
         self.video_generator = VideoGenerator(self.api_keys, self.rate_limiter)
         self.thumbnail_generator = ThumbnailGenerator(self.api_keys, self.rate_limiter)
         self.video_editor = VideoEditor()
 
         logger.info("All modules initialized")
+        
+        # Check for local services
+        from modules.local_llm import LocalLLM
+        llm = LocalLLM()
+        if llm.is_available():
+            logger.info("✅ Local LLM (Ollama) is available")
+        else:
+            logger.info("ℹ️  Install Ollama for local AI script generation: https://ollama.ai")
+        
+        from modules.local_tts import LocalTTS
+        tts = LocalTTS()
+        if tts.is_available():
+            logger.info("✅ Local TTS (Piper) is available")
+        else:
+            logger.info("ℹ️  Install Piper for local voice: https://github.com/rhasspy/piper")
+        
+        from modules.local_video import LocalSD
+        sd = LocalSD()
+        if sd.is_available():
+            logger.info("✅ Local Stable Diffusion is available")
+        else:
+            logger.info("ℹ️  Install Stable Diffusion for local video generation")
 
     def run_full_workflow(self) -> WorkflowResult:
         """Execute the complete automated workflow"""
