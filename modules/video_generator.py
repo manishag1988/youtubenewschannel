@@ -413,3 +413,17 @@ class VideoGenerator:
     def get_available_services(self) -> List[str]:
         """Get list of available video services"""
         return [p.name for p in self.providers]
+
+
+def _get_color(prompt: str, frame: int) -> tuple:
+    """Get background color based on prompt"""
+    prompt_lower = prompt.lower()
+
+    if 'ai' in prompt_lower or 'tech' in prompt_lower:
+        colors = [(20, 40, 80), (40, 20, 80), (80, 40, 20)]
+    elif 'news' in prompt_lower or 'update' in prompt_lower:
+        colors = [(30, 30, 50), (50, 30, 30), (30, 50, 30)]
+    else:
+        colors = [(20, 20, 40), (40, 20, 40), (20, 40, 40)]
+
+    return colors[frame % len(colors)]
