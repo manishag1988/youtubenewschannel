@@ -186,7 +186,7 @@ class YouTubeNewsAutomator:
 
         raise Exception("Script generation failed")
 
-    def _step_generate_audio(self, script: Script, session_dir: Path) -> AudioFile:
+    def _step_generate_audio(self, script, session_dir: Path):
         """Step 3: Convert script to audio"""
         for attempt in range(config.MAX_RETRIES):
             try:
