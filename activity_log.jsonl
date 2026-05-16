@@ -14,3 +14,23 @@
 {"timestamp": "2026-05-16 16:13:39.006", "level": "INFO", "source": "main", "message": "\n[STEP 1/6] Gathering news..."}
 {"timestamp": "2026-05-16 16:13:40.043", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from techcrunch"}
 {"timestamp": "2026-05-16 16:13:40.974", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from theverge"}
+{"timestamp": "2026-05-16 16:13:43.752", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from arstechnica"}
+{"timestamp": "2026-05-16 16:13:45.075", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from wired"}
+{"timestamp": "2026-05-16 16:13:46.237", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from engadget"}
+{"timestamp": "2026-05-16 16:13:49.056", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from feedburner"}
+{"timestamp": "2026-05-16 16:13:51.869", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from nytimes"}
+{"timestamp": "2026-05-16 16:13:51.874", "level": "INFO", "source": "main", "message": "Gathered 9 stories"}
+{"timestamp": "2026-05-16 16:13:51.875", "level": "INFO", "source": "main", "message": "\n[STEP 2/6] Writing script..."}
+{"timestamp": "2026-05-16 16:13:51.876", "level": "INFO", "source": "modules.script_writer", "message": "Generating script with FallbackLLMClient"}
+{"timestamp": "2026-05-16 16:13:51.877", "level": "INFO", "source": "modules.script_writer", "message": "Using fallback LLM (template-based)"}
+{"timestamp": "2026-05-16 16:13:51.878", "level": "INFO", "source": "modules.script_writer", "message": "Script generated successfully (186 words)"}
+{"timestamp": "2026-05-16 16:13:51.879", "level": "INFO", "source": "main", "message": "Script written: 186 words"}
+{"timestamp": "2026-05-16 16:13:51.880", "level": "INFO", "source": "main", "message": "\n[STEP 3/6] Generating voiceover..."}
+{"timestamp": "2026-05-16 16:13:51.881", "level": "INFO", "source": "modules.tts", "message": "Creating placeholder audio (Windows TTS requires manual setup)"}
+{"timestamp": "2026-05-16 16:13:51.882", "level": "INFO", "source": "modules.tts", "message": "Note: For real TTS, either:"}
+{"timestamp": "2026-05-16 16:13:51.882", "level": "INFO", "source": "modules.tts", "message": "  1. Add OPENAI_API_KEY for AI voiceover"}
+{"timestamp": "2026-05-16 16:13:51.884", "level": "INFO", "source": "modules.tts", "message": "  2. Or use Windows Narrator manually"}
+{"timestamp": "2026-05-16 16:13:51.888", "level": "INFO", "source": "modules.tts", "message": "Created placeholder audio: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_161339\\audio_1778928231.wav (3.0s)"}
+{"timestamp": "2026-05-16 16:13:51.889", "level": "INFO", "source": "modules.tts", "message": "Saved script for manual recording: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_161339\\audio_1778928231.txt"}
+{"timestamp": "2026-05-16 16:13:51.890", "level": "INFO", "source": "main", "message": "Audio generated: 3.0s"}
+{"timestamp": "2026-05-16 16:13:51.891", "level": "INFO", "source": "main", "message": "\n[STEP 4/6] Generating video clips..."}
