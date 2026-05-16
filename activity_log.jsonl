@@ -44,3 +44,26 @@
 {"timestamp": "2026-05-16 16:14:16.963", "level": "INFO", "source": "main", "message": "\n[STEP 6/6] Assembling final video..."}
 {"timestamp": "2026-05-16 16:14:16.965", "level": "INFO", "source": "modules.video_editor", "message": "Starting video assembly for CapCut import..."}
 {"timestamp": "2026-05-16 16:14:16.968", "level": "INFO", "source": "modules.video_editor", "message": "Creating background animation frames..."}
+{"timestamp": "2026-05-16 16:14:39.058", "level": "INFO", "source": "modules.video_editor", "message": "Created background: background_loop.gif"}
+{"timestamp": "2026-05-16 16:14:39.108", "level": "INFO", "source": "modules.video_editor", "message": "Created title card: title_card.png"}
+{"timestamp": "2026-05-16 16:14:39.113", "level": "INFO", "source": "modules.video_editor", "message": "Copied audio: voiceover.mp3"}
+{"timestamp": "2026-05-16 16:14:39.115", "level": "INFO", "source": "modules.video_editor", "message": "Created import guide: IMPORT_THIS_INTO_CAPCUT.txt"}
+{"timestamp": "2026-05-16 16:14:39.165", "level": "INFO", "source": "main", "message": "Final video assembled: final_1778928256"}
+{"timestamp": "2026-05-16 16:14:39.166", "level": "INFO", "source": "main", "message": "\n============================================================"}
+{"timestamp": "2026-05-16 16:14:39.167", "level": "INFO", "source": "main", "message": "WORKFLOW COMPLETED SUCCESSFULLY"}
+{"timestamp": "2026-05-16 16:14:39.168", "level": "INFO", "source": "main", "message": "============================================================"}
+{"timestamp": "2026-05-16 16:14:39.168", "level": "INFO", "source": "main", "message": "\n============================================================"}
+{"timestamp": "2026-05-16 16:14:39.169", "level": "INFO", "source": "main", "message": "WORKFLOW SUMMARY"}
+{"timestamp": "2026-05-16 16:14:39.170", "level": "INFO", "source": "main", "message": "============================================================"}
+{"timestamp": "2026-05-16 16:14:39.171", "level": "INFO", "source": "main", "message": "Status: SUCCESS"}
+{"timestamp": "2026-05-16 16:14:39.172", "level": "INFO", "source": "main", "message": "Duration: 60.2 seconds"}
+{"timestamp": "2026-05-16 16:14:39.173", "level": "INFO", "source": "main", "message": "Stories: 9"}
+{"timestamp": "2026-05-16 16:14:39.173", "level": "INFO", "source": "main", "message": "Script: Tech News: OpenAI launches ChatGPT for"}
+{"timestamp": "2026-05-16 16:14:39.174", "level": "INFO", "source": "main", "message": "Audio: 3.0s"}
+{"timestamp": "2026-05-16 16:14:39.175", "level": "INFO", "source": "main", "message": "Video clips: 3"}
+{"timestamp": "2026-05-16 16:14:39.176", "level": "INFO", "source": "main", "message": "Thumbnail: thumbnail_0_1778928256.png"}
+{"timestamp": "2026-05-16 16:14:39.177", "level": "INFO", "source": "main", "message": "Final video: final_1778928256"}
+{"timestamp": "2026-05-16 16:14:39.178", "level": "INFO", "source": "workflow", "message": "Workflow completed", "detail": {"success": true, "duration_s": 60.2, "stories": 9, "errors": 0}}
+{"timestamp": "2026-05-16 16:14:39.179", "level": "INFO", "source": "main", "message": "\n✅ Workflow completed successfully!"}
+{"timestamp": "2026-05-16 16:14:39.180", "level": "INFO", "source": "main", "message": "📁 Output directory: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_161339"}
+{"timestamp": "2026-05-16 16:14:39.181", "level": "INFO", "source": "run_with_logging", "message": "Process exited", "detail": {"exit_code": 0}}
