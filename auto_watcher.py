@@ -2,14 +2,18 @@ import os
 import subprocess
 import time
 from datetime import datetime
+from pathlib import Path
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+from utils.logger import ActivityLogger
 
 REPO_DIR = os.path.dirname(os.path.abspath(__file__))
 CHANGELOG_PATH = os.path.join(REPO_DIR, 'CHANGELOG.md')
 DEBOUNCE_SECONDS = 10
 IGNORE_DIRS = {'.git', '__pycache__', '.venv', 'venv', 'node_modules', '.gitattributes'}
 IGNORE_EXTS = {'.pyc', '.log'}
+
+_activity = ActivityLogger(Path(REPO_DIR) / "activities.jsonl")
 
 last_change = 0
 timer_active = False
@@ -110,16 +114,20 @@ def run_git_commands():
             cwd=REPO_DIR, check=True, capture_output=True
         )
         print(f"[{now()}] Committed changes.")
+        _activity.info("auto_watcher", "Committed changes")
 
         push = subprocess.run(
             ["git", "push"], cwd=REPO_DIR, capture_output=True, text=True
         )
         if push.returncode == 0:
             print(f"[{now()}] Pushed to GitHub.")
+            _activity.info("auto_watcher", "Pushed to GitHub")
         else:
             print(f"[{now()}] Push failed: {push.stderr.strip()}")
+            _activity.warning("auto_watcher", f"Push failed: {push.stderr.strip()}")
     except subprocess.CalledProcessError as e:
         print(f"[{now()}] Git error: {e}")
+        _activity.error("auto_watcher", f"Git error: {e}")
 
 
 def now():
