@@ -16,9 +16,9 @@ from utils.rate_limiter import RateLimiter
 from utils.file_manager import FileManager
 
 from modules.news_gatherer import NewsGatherer, NewsStory
-from modules.script_writer import ScriptWriter, Script
-from modules.tts import TTSEngine, AudioFile
-from modules.video_generator import VideoGenerator, VideoClip
+from modules.local_llm import get_script_writer
+from modules.local_tts import TTSEngine
+from modules.local_video import VideoGenerator
 from modules.thumbnail import ThumbnailGenerator, Thumbnail
 from modules.video_editor import VideoEditor, FinalVideo
 
