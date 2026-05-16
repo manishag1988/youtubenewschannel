@@ -1,5 +1,5 @@
 """
-Text-to-Speech module - Simple Windows SAPI via PowerShell
+Text-to-Speech module - Windows SAPI via PowerShell script
 """
 
 import os
@@ -7,7 +7,6 @@ import subprocess
 import tempfile
 from pathlib import Path
 from dataclasses import dataclass
-from typing import Optional
 from config import config
 from utils.logger import get_logger
 from utils.rate_limiter import RateLimiter
@@ -41,40 +40,51 @@ class TTSEngine:
         logger.info(f"Generating TTS with voice: {voice}")
 
         try:
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as tmp:
-                tmp_path = tmp.name
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                tmp_path = Path(tmp_dir) / "output.wav"
 
-            text_clean = text.replace('"', "'").replace('\n', ' ').replace('\r', '')[:2000]
+                text_clean = text.replace('"', "'").replace('\n', ' ').replace('\r', '')[:2000]
 
-            cmd = f'''powershell -Command "Add-Type -AssemblyName System.Speech; $synth = New-Object System.Speech.Synthesis.SpeechSynthesizer; $synth.SelectVoice('Microsoft David Desktop'); $synth.SetOutputToWaveFile('{tmp_path.replace(chr(92), chr(92)+chr(92))}'); $synth.Speak('{text_clean}'); $synth.Dispose()"'''
+                ps_script = f"""
+Add-Type -AssemblyName System.Speech
+$synth = New-Object System.Speech.Synthesis.SpeechSynthesizer
+$synth.SelectVoice('Microsoft David Desktop')
+$synth.SetOutputToWaveFile('{tmp_path}')
+$synth.Speak('{text_clean}')
+$synth.Dispose()
+"""
 
-            result = subprocess.run(cmd, shell=True, capture_output=True, timeout=120)
-
-            if os.path.exists(tmp_path) and os.path.getsize(tmp_path) > 1000:
-                with open(tmp_path, 'rb') as f:
-                    audio_data = f.read()
-
-                if output_path is None:
-                    from datetime import datetime
-                    output_path = Path(config.OUTPUT_DIR) / f"audio_{datetime.now().strftime('%Y%m%d_%H%M%S')}.wav"
-
-                with open(output_path, 'wb') as f:
-                    f.write(audio_data)
-
-                os.unlink(tmp_path)
-
-                duration = len(audio_data) / 2000.0
-
-                logger.info(f"Audio generated: {output_path} ({duration:.1f}s)")
-
-                return AudioFile(
-                    path=output_path,
-                    duration=duration,
-                    voice=voice,
-                    service="Windows SAPI"
+                result = subprocess.run(
+                    ['powershell', '-Command', ps_script],
+                    capture_output=True,
+                    timeout=120,
+                    cwd=tmp_dir
                 )
-            else:
-                raise Exception("Windows TTS failed - no audio file")
+
+                if tmp_path.exists():
+                    audio_size = tmp_path.stat().st_size
+                    logger.info(f"Audio file size: {audio_size} bytes")
+
+                    if audio_size > 1000:
+                        if output_path is None:
+                            from datetime import datetime
+                            output_path = Path(config.OUTPUT_DIR) / f"audio_{datetime.now().strftime('%Y%m%d_%H%M%S')}.wav"
+
+                        import shutil
+                        shutil.copy2(tmp_path, output_path)
+
+                        duration = audio_size / 2000.0
+
+                        logger.info(f"Audio generated: {output_path} ({duration:.1f}s)")
+
+                        return AudioFile(
+                            path=output_path,
+                            duration=duration,
+                            voice=voice,
+                            service="Windows SAPI"
+                        )
+
+            raise Exception("Windows TTS failed - no audio file")
 
         except Exception as e:
             logger.error(f"TTS failed: {e}")
