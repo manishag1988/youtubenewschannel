@@ -221,7 +221,9 @@ class LoggingConfig:
     """Logging configuration"""
     LOG_LEVEL = "INFO"
     LOG_FILE = BASE_DIR / "automation.log"
+    ACTIVITY_LOG = BASE_DIR / "activities.jsonl"
     CONSOLE_OUTPUT = True
+    SESSION_LOGGING = True
 
 class GlobalConfig:
     """Global configuration container"""
