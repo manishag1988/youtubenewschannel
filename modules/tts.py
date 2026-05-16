@@ -39,7 +39,7 @@ class TTSProvider:
 
 
 class TTSMP3Provider(TTSProvider):
-    """TTSMP3 browser-based TTS service"""
+    """TTSMP3 browser-based TTS service - Completely free!"""
 
     VOICE_MAP = {
         "adam": "Adam",
@@ -49,6 +49,30 @@ class TTSMP3Provider(TTSProvider):
         "amy": "Amy",
         "emma": "Emma",
     }
+
+    def __init__(self, rate_limiter: RateLimiter = None):
+        self.rate_limiter = rate_limiter or RateLimiter()
+
+    def generate(self, text: str, voice: str = "adam") -> bytes:
+        """Generate audio using TTSMP3 (free, no signup)"""
+        voice_id = self.VOICE_MAP.get(voice.lower(), "Adam")
+
+        try:
+            response = requests.post(
+                "https://ttsmp3.org/sapi/",
+                data={"text": text, "voice": voice_id, "source": "ttsmp3"},
+                timeout=60
+            )
+
+            if response.status_code == 200 and response.content:
+                return response.content
+            else:
+                raise Exception(f"TTSMP3 returned status {response.status_code}")
+
+        except Exception as e:
+            logger.error(f"TTSMP3 generation failed: {e}")
+            raise
+
 
 class SoundToolsProvider(TTSProvider):
     """SoundTools browser-based TTS"""
