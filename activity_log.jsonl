@@ -34,3 +34,5 @@
 {"timestamp": "2026-05-16 16:13:51.889", "level": "INFO", "source": "modules.tts", "message": "Saved script for manual recording: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_161339\\audio_1778928231.txt"}
 {"timestamp": "2026-05-16 16:13:51.890", "level": "INFO", "source": "main", "message": "Audio generated: 3.0s"}
 {"timestamp": "2026-05-16 16:13:51.891", "level": "INFO", "source": "main", "message": "\n[STEP 4/6] Generating video clips..."}
+{"timestamp": "2026-05-16 16:13:59.803", "level": "INFO", "source": "modules.video_generator", "message": "Generated clip 1: clip_0_1778928239.gif"}
+{"timestamp": "2026-05-16 16:14:08.212", "level": "INFO", "source": "modules.video_generator", "message": "Generated clip 2: clip_1_1778928248.gif"}
