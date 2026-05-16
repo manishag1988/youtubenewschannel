@@ -61,9 +61,11 @@ class VideoEditor:
 
         width, height = 1920, 1080
 
-        logger.info("Creating background animation frames...")
+        print("Creating background animation frames...", flush=True)
         frames = []
         for i in range(60):
+            if i % 10 == 0:
+                print(f"  Frame {i}/60", flush=True)
             img = Image.new('RGB', (width, height), color=(15, 15, 25))
             draw = ImageDraw.Draw(img)
 

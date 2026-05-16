@@ -1,3 +1,23 @@
+{"timestamp": "2026-05-16 18:20:00.000", "level": "INFO", "source": "summary", "message": "Project initialized with core orchestrator (main.py, 310 lines)", "detail": {"component": "orchestrator", "status": "complete"}}
+{"timestamp": "2026-05-16 18:20:00.001", "level": "INFO", "source": "summary", "message": "Created central configuration module (config.py, 252 lines)", "detail": {"component": "config", "sections": ["news", "script", "tts", "video", "thumbnail", "llm", "editor", "logging"]}}
+{"timestamp": "2026-05-16 18:20:00.002", "level": "INFO", "source": "summary", "message": "News gathering module: 7 RSS feeds with AI-powered curation", "detail": {"component": "news_gatherer", "lines": 229}}
+{"timestamp": "2026-05-16 18:20:00.003", "level": "INFO", "source": "summary", "message": "Script writing module: ChatGPT, Gemini, Claude, DeepSeek + template fallback", "detail": {"component": "script_writer", "lines": 402}}
+{"timestamp": "2026-05-16 18:20:00.004", "level": "INFO", "source": "summary", "message": "TTS module with placeholder audio generation", "detail": {"component": "tts", "lines": 82}}
+{"timestamp": "2026-05-16 18:20:00.005", "level": "INFO", "source": "summary", "message": "Video generation module: PIL-based animated GIF clips", "detail": {"component": "video_generator", "lines": 142}}
+{"timestamp": "2026-05-16 18:20:00.006", "level": "INFO", "source": "summary", "message": "Thumbnail generation: PIL-based with title overlay", "detail": {"component": "thumbnail", "lines": 105}}
+{"timestamp": "2026-05-16 18:20:00.007", "level": "INFO", "source": "summary", "message": "Video editor: CapCut-ready assembly with animated backgrounds", "detail": {"component": "video_editor", "lines": 138}}
+{"timestamp": "2026-05-16 18:20:00.008", "level": "INFO", "source": "summary", "message": "Local LLM integration: Ollama with multi-model support", "detail": {"component": "local_llm", "lines": 137}}
+{"timestamp": "2026-05-16 18:20:00.009", "level": "INFO", "source": "summary", "message": "Local TTS: Windows SAPI, Piper, Coqui XTTS with fallback", "detail": {"component": "local_tts", "lines": 158}}
+{"timestamp": "2026-05-16 18:20:00.010", "level": "INFO", "source": "summary", "message": "Local video: Stable Diffusion + ComfyUI + PIL fallback", "detail": {"component": "local_video", "lines": 218}}
+{"timestamp": "2026-05-16 18:20:00.011", "level": "INFO", "source": "summary", "message": "Utility modules: colored logger, rate limiter, file manager", "detail": {"components": ["logger", "rate_limiter", "file_manager"]}}
+{"timestamp": "2026-05-16 18:20:00.012", "level": "INFO", "source": "summary", "message": "Activity logging system: JSONL-structured standalone logger + log interceptor", "detail": {"components": ["activity_logger.py", "run_with_logging.py"]}}
+{"timestamp": "2026-05-16 18:20:00.013", "level": "INFO", "source": "summary", "message": "Auto-watcher: file system monitoring with auto-commit, changelog, and push", "detail": {"component": "auto_watcher", "lines": 177}}
+{"timestamp": "2026-05-16 18:20:00.014", "level": "INFO", "source": "summary", "message": "GitHub Actions workflow: scheduled + manual trigger with artifact upload", "detail": {"component": "ci/cd", "lines": 88}}
+{"timestamp": "2026-05-16 18:20:00.015", "level": "INFO", "source": "summary", "message": "Local AI setup: Ollama installer + Piper TTS binary", "detail": {"components": ["local_ai/ollama", "local_ai/piper"]}}
+{"timestamp": "2026-05-16 18:20:00.016", "level": "INFO", "source": "summary", "message": "Test scripts: end-to-end pipeline test + video editor integration test", "detail": {"components": ["test_steps.py", "test_video_editor.py"]}}
+{"timestamp": "2026-05-16 18:20:00.017", "level": "INFO", "source": "summary", "message": "Documentation updated: README with full project structure and features", "detail": {"component": "docs"}}
+{"timestamp": "2026-05-16 18:20:00.018", "level": "INFO", "source": "summary", "message": "Total project files: 34+ source files across core, modules, utils, local AI, and CI/CD", "detail": {"total_pipeline_runs": 30, "outputs_generated": 174}}
+
 {"timestamp": "2026-05-16 16:13:38.277", "level": "INFO", "source": "run_with_logging", "message": "Activity logging wrapper started", "detail": {"cwd": "D:\\AIprojects\\youtubenewschannel"}}
 {"timestamp": "2026-05-16 16:13:38.278", "level": "INFO", "source": "run_with_logging", "message": "Log interceptor installed"}
 {"timestamp": "2026-05-16 16:13:38.994", "level": "INFO", "source": "run_with_logging", "message": "Patched run_full_workflow"}
@@ -67,3 +87,56 @@
 {"timestamp": "2026-05-16 16:14:39.179", "level": "INFO", "source": "main", "message": "\n✅ Workflow completed successfully!"}
 {"timestamp": "2026-05-16 16:14:39.180", "level": "INFO", "source": "main", "message": "📁 Output directory: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_161339"}
 {"timestamp": "2026-05-16 16:14:39.181", "level": "INFO", "source": "run_with_logging", "message": "Process exited", "detail": {"exit_code": 0}}
+{"timestamp": "2026-05-16 18:32:19.994", "level": "INFO", "source": "run_with_logging", "message": "Activity logging wrapper started", "detail": {"cwd": "D:\\AIprojects\\youtubenewschannel"}}
+{"timestamp": "2026-05-16 18:32:19.995", "level": "INFO", "source": "run_with_logging", "message": "Log interceptor installed"}
+{"timestamp": "2026-05-16 18:32:21.414", "level": "INFO", "source": "run_with_logging", "message": "Patched run_full_workflow"}
+{"timestamp": "2026-05-16 18:32:21.416", "level": "INFO", "source": "run_with_logging", "message": "Launching main workflow", "detail": {"log_file": "D:\\AIprojects\\youtubenewschannel\\activity_log.jsonl", "python": "3.13.7"}}
+{"timestamp": "2026-05-16 18:32:21.417", "level": "INFO", "source": "main", "message": "Starting YouTube Tech News Automator..."}
+{"timestamp": "2026-05-16 18:32:21.418", "level": "INFO", "source": "main", "message": "No API keys - using local services only"}
+{"timestamp": "2026-05-16 18:32:21.421", "level": "INFO", "source": "main", "message": "Initializing production modules..."}
+{"timestamp": "2026-05-16 18:32:21.422", "level": "INFO", "source": "main", "message": "All modules initialized"}
+{"timestamp": "2026-05-16 18:32:23.492", "level": "INFO", "source": "main", "message": "✅ Local LLM (Ollama) is available"}
+{"timestamp": "2026-05-16 18:32:23.660", "level": "INFO", "source": "comtypes.client._code_cache", "message": "Imported existing <module 'comtypes.gen' from 'C:\\\\Users\\\\manish\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\Lib\\\\site-packages\\\\comtypes\\\\gen\\\\__init__.py'>"}
+{"timestamp": "2026-05-16 18:32:23.662", "level": "INFO", "source": "comtypes.client._code_cache", "message": "Using writeable comtypes cache directory: 'C:\\Users\\manish\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\comtypes\\gen'"}
+{"timestamp": "2026-05-16 18:32:24.309", "level": "INFO", "source": "main", "message": "✅ Local TTS (Piper) is available"}
+{"timestamp": "2026-05-16 18:32:26.343", "level": "INFO", "source": "main", "message": "ℹ️  Install Stable Diffusion for local video generation"}
+{"timestamp": "2026-05-16 18:32:26.344", "level": "INFO", "source": "main", "message": "YouTube News Automator initialized"}
+{"timestamp": "2026-05-16 18:32:26.345", "level": "INFO", "source": "YouTubeNewsAutomator", "message": "Created session directory: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_183226"}
+{"timestamp": "2026-05-16 18:32:27.527", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from techcrunch"}
+{"timestamp": "2026-05-16 18:32:28.881", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from theverge"}
+{"timestamp": "2026-05-16 18:32:29.819", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from arstechnica"}
+{"timestamp": "2026-05-16 18:32:30.788", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from wired"}
+{"timestamp": "2026-05-16 18:32:31.762", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from engadget"}
+{"timestamp": "2026-05-16 18:32:34.166", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from feedburner"}
+{"timestamp": "2026-05-16 18:32:37.152", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from nytimes"}
+{"timestamp": "2026-05-16 18:32:39.191", "level": "INFO", "source": "modules.local_llm", "message": "Using local LLM (Ollama) for script generation"}
+{"timestamp": "2026-05-16 18:33:55.300", "level": "INFO", "source": "modules.local_tts", "message": "Using local Piper TTS"}
+{"timestamp": "2026-05-16 18:33:59.073", "level": "INFO", "source": "modules.local_video", "message": "Using PIL fallback for video generation"}
+{"timestamp": "2026-05-16 18:34:02.808", "level": "INFO", "source": "modules.local_video", "message": "Generated PIL clip: clip_0_1778936639.gif"}
+{"timestamp": "2026-05-16 18:34:06.114", "level": "INFO", "source": "modules.local_video", "message": "Generated PIL clip: clip_1_1778936642.gif"}
+{"timestamp": "2026-05-16 18:34:09.432", "level": "INFO", "source": "modules.local_video", "message": "Generated PIL clip: clip_2_1778936646.gif"}
+{"timestamp": "2026-05-16 18:34:09.481", "level": "INFO", "source": "modules.thumbnail", "message": "Generated thumbnail: thumbnail_0_1778936649.png"}
+{"timestamp": "2026-05-16 18:34:09.484", "level": "INFO", "source": "modules.video_editor", "message": "Starting video assembly for CapCut import..."}
+{"timestamp": "2026-05-16 18:34:29.561", "level": "INFO", "source": "modules.video_editor", "message": "Created background: background_loop.gif"}
+{"timestamp": "2026-05-16 18:34:29.611", "level": "INFO", "source": "modules.video_editor", "message": "Created title card: title_card.png"}
+{"timestamp": "2026-05-16 18:34:29.620", "level": "INFO", "source": "modules.video_editor", "message": "Copied audio: voiceover.mp3"}
+{"timestamp": "2026-05-16 18:34:29.621", "level": "INFO", "source": "modules.video_editor", "message": "Created import guide: IMPORT_THIS_INTO_CAPCUT.txt"}
+{"timestamp": "2026-05-16 18:34:29.679", "level": "INFO", "source": "main", "message": "Final video assembled: final_1778936649"}
+{"timestamp": "2026-05-16 18:34:29.680", "level": "INFO", "source": "main", "message": "\n============================================================"}
+{"timestamp": "2026-05-16 18:34:29.681", "level": "INFO", "source": "main", "message": "WORKFLOW COMPLETED SUCCESSFULLY"}
+{"timestamp": "2026-05-16 18:34:29.682", "level": "INFO", "source": "main", "message": "============================================================"}
+{"timestamp": "2026-05-16 18:34:29.684", "level": "INFO", "source": "main", "message": "\n============================================================"}
+{"timestamp": "2026-05-16 18:34:29.684", "level": "INFO", "source": "main", "message": "WORKFLOW SUMMARY"}
+{"timestamp": "2026-05-16 18:34:29.685", "level": "INFO", "source": "main", "message": "============================================================"}
+{"timestamp": "2026-05-16 18:34:29.686", "level": "INFO", "source": "main", "message": "Status: SUCCESS"}
+{"timestamp": "2026-05-16 18:34:29.687", "level": "INFO", "source": "main", "message": "Duration: 123.3 seconds"}
+{"timestamp": "2026-05-16 18:34:29.688", "level": "INFO", "source": "main", "message": "Stories: 8"}
+{"timestamp": "2026-05-16 18:34:29.689", "level": "INFO", "source": "main", "message": "Script: Tech News Update"}
+{"timestamp": "2026-05-16 18:34:29.690", "level": "INFO", "source": "main", "message": "Audio: 599.116s"}
+{"timestamp": "2026-05-16 18:34:29.691", "level": "INFO", "source": "main", "message": "Video clips: 3"}
+{"timestamp": "2026-05-16 18:34:29.693", "level": "INFO", "source": "main", "message": "Thumbnail: thumbnail_0_1778936649.png"}
+{"timestamp": "2026-05-16 18:34:29.693", "level": "INFO", "source": "main", "message": "Final video: final_1778936649"}
+{"timestamp": "2026-05-16 18:34:29.695", "level": "INFO", "source": "workflow", "message": "Workflow completed", "detail": {"success": true, "duration_s": 123.3, "stories": 8, "errors": 0}}
+{"timestamp": "2026-05-16 18:34:29.697", "level": "INFO", "source": "main", "message": "\n✅ Workflow completed successfully!"}
+{"timestamp": "2026-05-16 18:34:29.698", "level": "INFO", "source": "main", "message": "📁 Output directory: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_183226"}
+{"timestamp": "2026-05-16 18:34:29.699", "level": "INFO", "source": "run_with_logging", "message": "Process exited", "detail": {"exit_code": 0}}

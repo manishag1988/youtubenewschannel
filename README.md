@@ -1,16 +1,20 @@
 # YouTube Tech News Channel Automation Tool
 
-A fully automated tool for creating tech news YouTube videos using 100% free AI tools with automatic fallback support.
+A fully automated tool for creating tech news YouTube videos using 100% free AI tools with automatic fallback support, local AI inference, and CI/CD deployment.
 
 ## Features
 
-- **News Gathering**: Automatic RSS aggregation from top tech sources
-- **Script Writing**: AI-powered script generation using LLMs (with fallback)
-- **Text-to-Speech**: Multiple free TTS services (TTSMP3, SoundTools, Out Loud)
-- **Video Generation**: AI video clips from Kling, LoreMotion, Free.ai (with fallback)
-- **Thumbnail Creation**: Auto-generated thumbnails (Thumb-Free, Canva, Leonardo)
-- **Video Assembly**: Complete video assembly with audio and clips
-- **Fallback Support**: Every module has fallback services if primary fails
+- **News Gathering**: Automatic RSS aggregation from 7+ top tech sources (TechCrunch, The Verge, Ars Technica, Wired, Engadget, NYT)
+- **Script Writing**: AI-powered script generation with multi-provider LLM support (ChatGPT, Gemini, Claude, DeepSeek) + fallback templates
+- **Local LLM**: Offline script generation via Ollama (llama3.2, Mistral, Phi-3, Gemma)
+- **Text-to-Speech**: Multiple TTS options — Windows SAPI, Piper, Coqui XTTS, or placeholder audio
+- **Video Generation**: AI video clips via local Stable Diffusion, ComfyUI, or PIL-based fallback animation
+- **Thumbnail Creation**: Auto-generated PIL-based thumbnails with title overlay
+- **Video Assembly**: Complete CapCut-ready output with background animation, title cards, and import guide
+- **Activity Logging**: Structured JSONL logging of all workflow activity with automatic log interception
+- **Rate Limiting**: Daily credit tracking across all services to prevent abuse
+- **Auto-Watcher**: File system monitoring with automatic git commit, changelog update, and push
+- **CI/CD Ready**: GitHub Actions workflow for cloud execution with artifact upload
 
 ## Installation
 
@@ -18,141 +22,134 @@ A fully automated tool for creating tech news YouTube videos using 100% free AI 
 pip install -r requirements.txt
 ```
 
+### Optional Local AI (for offline/fully-free operation)
+
+1. **Ollama** (local LLM): Run `local_ai/ollama/install.ps1` or install from https://ollama.ai
+2. **Piper TTS** (local voice): Extract `local_ai/piper/piper.zip`
+3. **Stable Diffusion**: Install Automatic1111 at http://127.0.0.1:7860
+4. **FFmpeg**: Run `install_ffmpeg.bat` or install manually
+
 ## Usage
 
 ```bash
+# Standard run
 python main.py
+
+# With activity logging
+python run_with_logging.py
+
+# Or double-click the batch files
+start_with_logging.bat
+start_watcher.bat
 ```
-
-## Configuration
-
-### API Keys (Optional - Fallbacks Work Without)
-
-Set environment variables for enhanced services:
-
-```bash
-export OPENAI_API_KEY="your-key"
-export GEMINI_API_KEY="your-key"
-export KLING_API_KEY="your-key"
-export LEONARDO_API_KEY="your-key"
-```
-
-### No API Keys? No Problem!
-
-The tool works with **zero API keys** using these free services:
-
-| Service | Type | Limit |
-|---------|------|-------|
-| TTSMP3 | Browser TTS | Unlimited |
-| LoreMotion | Video Generation | Unlimited (ad-supported) |
-| Feedly | News | Free tier |
-| Thumb-Free | Thumbnails | Unlimited |
-| ChatGPT Fallback | Script | Template-based |
 
 ## Project Structure
 
 ```
 youtubenewschannel/
-├── main.py                 # Main orchestrator
-├── config.py               # Configuration
-├── requirements.txt        # Dependencies
-├── README.md              # This file
+├── main.py                          # Main orchestrator (6-step pipeline)
+├── config.py                        # Central configuration (all service settings)
+├── activity_logger.py               # Standalone JSONL activity logging
+├── run_with_logging.py              # Log interception wrapper
+├── auto_watcher.py                  # Git auto-watcher with changelog updates
+├── install_ffmpeg.bat               # FFmpeg installer
+├── requirements.txt                 # Python dependencies
+├── .gitignore                       # Git ignore rules
+├── CHANGELOG.md                     # Auto-generated changelog
+├── activity_log.jsonl               # Structured activity log
+├── workflow_log.txt                 # Workflow execution log
+│
 ├── modules/
-│   ├── news_gatherer.py    # RSS news aggregation
-│   ├── script_writer.py    # Script generation with LLM
-│   ├── tts.py             # Text-to-speech
-│   ├── video_generator.py # AI video generation
-│   ├── thumbnail.py       # Thumbnail generation
-│   └── video_editor.py    # Video assembly
+│   ├── news_gatherer.py             # RSS news aggregation + AI curation
+│   ├── script_writer.py             # LLM script gen (ChatGPT/Gemini/Claude/DeepSeek)
+│   ├── tts.py                       # Text-to-speech (placeholder)
+│   ├── video_generator.py           # PIL-based animated GIF generation
+│   ├── thumbnail.py                 # PIL-based thumbnail generation
+│   ├── video_editor.py              # CapCut-ready video assembly
+│   ├── local_llm.py                 # Ollama local LLM integration
+│   ├── local_tts.py                 # Windows SAPI / Piper / Coqui TTS
+│   ├── local_video.py               # Stable Diffusion / PIL video gen
+│   └── __init__.py                  # Module exports
+│
 ├── utils/
-│   ├── logger.py          # Logging
-│   ├── rate_limiter.py    # API rate limiting
-│   └── file_manager.py    # File handling
-└── outputs/               # Generated content
+│   ├── logger.py                    # Colored console + file logging
+│   ├── rate_limiter.py              # API rate limit tracking
+│   ├── file_manager.py              # File I/O and session management
+│   └── __init__.py                  # Utility exports
+│
+├── local_ai/
+│   ├── ollama/install.ps1           # Ollama setup script
+│   └── piper/piper.zip              # Piper TTS binary
+│
+├── .github/workflows/
+│   └── run_automation.yml           # GitHub Actions CI/CD pipeline
+│
+├── outputs/                         # Generated videos, scripts, thumbnails
+│   └── .gitkeep
+│
+├── test_steps.py                    # End-to-end pipeline test
+└── test_video_editor.py             # Video editor integration test
 ```
 
-## Workflow
+## Workflow (6-Step Pipeline)
 
 1. **News Gathering** → Fetch from TechCrunch, The Verge, Ars Technica, etc.
-2. **Script Writing** → Generate engaging narration from news
-3. **Voiceover** → Convert script to audio
-4. **Video Generation** → Create AI B-roll clips
-5. **Thumbnail** → Generate click-worthy thumbnail
-6. **Assembly** → Combine all into final video
+2. **Script Writing** → Generate engaging narration via LLM (local or cloud)
+3. **Voiceover** → Convert script to audio via local TTS or placeholder
+4. **Video Generation** → Create AI B-roll clips (SD or PIL animation)
+5. **Thumbnail** → Generate click-worthy thumbnail with title overlay
+6. **Assembly** → Combine all into CapCut-ready output with import guide
 
-## Requirements
+## API Configuration
 
-- Python 3.8+
-- requests
-- feedparser
-- moviepy (for video assembly)
-- Pillow (for placeholder thumbnails)
-- ffmpeg (optional, for advanced video assembly)
-
-## Notes
-
-- All tools verified as 100% free as of May 2026
-- Most services work without signup
-- Fallbacks ensure workflow never fails
-- Rate limiters prevent service abuse
-
----
-
-## Running on GitHub Actions (Cloud)
-
-You can run the automation in the cloud without your local machine!
-
-### 1. Push Code to GitHub
+### Optional API Keys (for enhanced quality)
 
 ```bash
-git add .
-git commit -m "Add GitHub Actions workflow"
-git push origin main
+export OPENAI_API_KEY="your-key"
+export GEMINI_API_KEY="your-key"
+export CLAUDE_API_KEY="your-key"
+export DEEPSEEK_API_KEY="your-key"
+export KLING_API_KEY="your-key"
+export LEONARDO_API_KEY="your-key"
 ```
 
-### 2. Configure Secrets (Optional - for better AI quality)
+### Without API Keys — 100% Free + Local
 
-1. Go to your GitHub repo → **Settings** → **Secrets and variables** → **Actions**
-2. Add these secrets (get free keys from each service):
+The tool works with **zero API keys** using these free/local services:
 
-| Secret Name | Service | Free Tier |
-|-------------|---------|-----------|
-| `OPENAI_API_KEY` | OpenAI | Limited |
-| `GEMINI_API_KEY` | Google Gemini | Yes |
-| `KLING_API_KEY` | Kling AI | 66/day |
-| `LEONARDO_API_KEY` | Leonardo AI | 150/day |
+| Service | Type | Description |
+|---------|------|-------------|
+| Ollama | Local LLM | llama3.2, Mistral, Phi-3, Gemma |
+| Piper/Coqui | Local TTS | Windows SAPI voice synthesis |
+| Stable Diffusion | Local Video | Automatic1111 / ComfyUI |
+| PIL | Fallback | Animated GIF + thumbnail generation |
+| RSS Feeds | Free News | TechCrunch, The Verge, Ars, Wired, etc. |
 
-**Without secrets**, the app still works using fallback services!
+## Activity Logging
 
-### 3. Run Workflow
+All workflow runs are automatically logged to `activity_log.jsonl` in structured JSONL format:
 
-1. Go to **Actions** tab in your GitHub repo
-2. Click **YouTube News Automation** → **Run workflow**
-3. Choose number of videos or run on schedule
-
-### 4. Download Outputs
-
-After workflow completes, download artifacts:
-- **generated-content**: Scripts, audio, thumbnails
-- **automation-logs**: Full execution logs
-- **youtube-automation-outputs**: All generated files
-
----
-
-### Scheduled Runs
-
-The workflow can run automatically. Edit `.github/workflows/run_automation.yml` to adjust:
-
-```yaml
-# Run every day at 8 AM UTC
-schedule:
-  - cron: '0 8 * * *'
-
-# Or manually trigger anytime
-workflow_dispatch:
+```json
+{"timestamp": "...", "level": "INFO", "source": "main", "message": "...", "detail": {...}}
 ```
 
----
+View activity summary:
+```python
+from activity_logger import summary, read_filter
+print(summary())
+print(read_filter(level="ERROR"))
+```
+
+## CI/CD (GitHub Actions)
+
+Push to GitHub and the workflow runs automatically. Configure secrets in GitHub repo settings:
+- `OPENAI_API_KEY`, `GEMINI_API_KEY`, `KLING_API_KEY`, `LEONARDO_API_KEY`
+
+Workflow uploads: generated content, logs, and all outputs as build artifacts.
+
+## Changelog
+
+All changes auto-tracked in `CHANGELOG.md` via the auto-watcher. See the file for full history.
 
 ## License
 

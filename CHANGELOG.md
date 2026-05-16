@@ -370,3 +370,7 @@ All notable changes to this project will be documented in this file.
 
 ### auto: update 18:18
 - **test_video_editor.py**: Added
+
+### auto: update 18:20
+- **README.md**: Full rewrite with comprehensive project documentation covering all features, modules, local AI, CI/CD, and activity logging
+- **activity_log.jsonl**: Added project summary entries documenting all components and current state
