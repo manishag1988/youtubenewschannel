@@ -77,7 +77,7 @@ class YouTubeNewsAutomator:
         self.api_keys = api_keys or {}
 
         self.output_dir = output_dir or config.OUTPUT_DIR
-self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.output_dir.mkdir(parents=True, exist_ok=True)
 
         self.rate_limiter = RateLimiter()
         self.file_manager = FileManager(self.output_dir)
