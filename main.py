@@ -171,7 +171,7 @@ class YouTubeNewsAutomator:
 
         return []
 
-    def _step_write_script(self, stories: List[NewsStory]) -> Script:
+    def _step_write_script(self, stories):
         """Step 2: Generate script from stories"""
         if not stories:
             raise ValueError("No stories available for script")
