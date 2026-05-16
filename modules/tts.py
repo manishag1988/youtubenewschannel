@@ -368,10 +368,12 @@ class TTSEngine:
     def _generate_chunk(self, text: str, voice: str, index: int) -> bytes:
         """Generate audio for a single chunk with fallback"""
         last_error = None
+        providers_tried = []
 
         logger.info(f"Trying TTS for chunk {index}...")
 
         for provider in self.providers:
+            providers_tried.append(provider.name)
             try:
                 logger.info(f"  Trying {provider.name}...")
                 audio = provider.generate(text, voice)
@@ -386,7 +388,7 @@ class TTSEngine:
                 last_error = e
                 continue
 
-        logger.error("All TTS providers failed")
+        logger.error(f"All TTS providers failed. Tried: {providers_tried}")
         raise Exception(f"All TTS providers failed: {last_error}")
 
     def _merge_audio(self, chunks: List[bytes], output_path: Path) -> AudioFile:
