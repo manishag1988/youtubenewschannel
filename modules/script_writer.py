@@ -223,13 +223,23 @@ class FallbackLLMClient(LLMClient):
         """Generate a basic script from template"""
         return """Hey everyone! Welcome back to the channel!
 
-Today we're diving into some major tech news that's been making waves across the industry.
+Today we're breaking down the latest tech news that you need to know about.
 
-[STORY CONTENT HERE - Add your news content]
+[STORY 1 CONTENT]
 
-This is a significant development because it shows how the tech landscape is evolving. What do you think about this? Drop your thoughts in the comments below!
+This is a huge development in the tech world. It shows just how fast the industry is evolving, and it could have major implications for users like you and me.
 
-If you enjoyed this video, don't forget to like and subscribe for more tech news updates. I'll see you in the next one!"""
+[STORY 2 CONTENT]
+
+Another important story making headlines. Companies are racing to stay ahead, and the competition is getting more intense.
+
+[STORY 3 CONTENT]
+
+That's the tech news for today. These are exciting times in technology, and I'll keep you updated on all the latest developments.
+
+If you enjoyed this video, hit that like button and subscribe for more tech news updates. Leave a comment below - what tech story are you most excited about?
+
+Thanks for watching, and I'll see you in the next one!"""
 
     def _generate_summary_from_template(self, prompt: str) -> str:
         """Generate a summary"""
