@@ -6,12 +6,68 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 REPO_DIR = os.path.dirname(os.path.abspath(__file__))
+CHANGELOG_PATH = os.path.join(REPO_DIR, 'CHANGELOG.md')
 DEBOUNCE_SECONDS = 10
 IGNORE_DIRS = {'.git', '__pycache__', '.venv', 'venv', 'node_modules', '.gitattributes'}
 IGNORE_EXTS = {'.pyc', '.log'}
 
 last_change = 0
 timer_active = False
+
+
+def update_changelog():
+    """Prepend pending file changes as a new changelog entry."""
+    try:
+        result = subprocess.run(
+            ["git", "status", "--porcelain"],
+            capture_output=True, text=True, cwd=REPO_DIR
+        )
+        lines = [l.strip() for l in result.stdout.strip().split('\n') if l.strip()]
+        if not lines:
+            return
+
+        date_str = datetime.now().strftime('%Y-%m-%d')
+        time_str = datetime.now().strftime('%H:%M')
+        entry = f"\n### auto: update {time_str}\n"
+
+        for line in lines:
+            status = line[:2].strip()
+            filepath = line[3:].strip()
+            if status in ('??', 'A '):
+                action = 'Added'
+            elif 'D' in status:
+                action = 'Deleted'
+            elif 'R' in status:
+                action = 'Renamed'
+            else:
+                action = 'Modified'
+            entry += f"- **{filepath}**: {action}\n"
+
+        if not os.path.exists(CHANGELOG_PATH):
+            print(f"[{now()}] CHANGELOG.md not found, skipping update.")
+            return
+
+        with open(CHANGELOG_PATH, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        today_header = f"## {date_str}"
+        section = f"\n{today_header}\n{entry}\n"
+        marker = '---\n'
+
+        # Insert after the --- marker (before version history)
+        idx = content.find(marker)
+        if idx != -1:
+            idx += len(marker)
+            content = content[:idx] + section + content[idx:]
+        else:
+            content += '\n' + section
+
+        with open(CHANGELOG_PATH, 'w', encoding='utf-8') as f:
+            f.write(content)
+
+        print(f"[{now()}] CHANGELOG.md updated.")
+    except Exception as e:
+        print(f"[{now()}] Changelog update error: {e}")
 
 
 def run_git_commands():
@@ -22,6 +78,19 @@ def run_git_commands():
         )
         if not result.stdout.strip():
             print(f"[{now()}] No changes to commit.")
+            return
+
+        update_changelog()
+
+        # Skip commit if only CHANGELOG.md changed
+        result = subprocess.run(
+            ["git", "status", "--porcelain"],
+            capture_output=True, text=True, cwd=REPO_DIR
+        )
+        remaining = [l.strip() for l in result.stdout.strip().split('\n') if l.strip()]
+        real_changes = [l for l in remaining if 'CHANGELOG.md' not in l]
+        if not real_changes:
+            print(f"[{now()}] Only CHANGELOG.md changed; skipping commit cycle.")
             return
 
         subprocess.run(["git", "add", "-A"], cwd=REPO_DIR, check=True)
