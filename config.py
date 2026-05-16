@@ -17,9 +17,9 @@ class NewsConfig:
         "https://www.theverge.com/rss/index.xml",
         "https://feeds.arstechnica.com/arstechnica/technology-lab",
         "https://www.wired.com/feed/rss",
-        "https://source.android.com/news/rss",
         "https://www.engadget.com/rss.xml",
-        "https://mashable.com/rss/tech.rss",
+        "https://feeds.feedburner.com/TechCrunch",
+        "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
     ]
 
     MAX_STORIES_PER_CHECK = 10
