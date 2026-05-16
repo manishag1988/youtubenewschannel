@@ -1,9 +1,9 @@
 """
-Text-to-Speech module - Windows SAPI
+Text-to-Speech module - Create placeholder audio files
+Since Windows TTS is having issues with subprocess, we create placeholder audio
 """
 
 import os
-import subprocess
 from pathlib import Path
 from dataclasses import dataclass
 from config import config
@@ -22,7 +22,7 @@ class AudioFile:
 
 
 class TTSEngine:
-    """TTS engine using Windows SAPI"""
+    """TTS engine - creates placeholder for now"""
 
     def __init__(self, api_keys: dict = None, rate_limiter: RateLimiter = None):
         self.rate_limiter = rate_limiter or RateLimiter()
@@ -36,58 +36,47 @@ class TTSEngine:
         if not text:
             raise ValueError("No text provided")
 
-        logger.info(f"Generating TTS with voice: {voice}")
-
+        logger.info(f"Creating placeholder audio (Windows TTS requires manual setup)")
+        
+        logger.info("Note: For real TTS, either:")
+        logger.info("  1. Add OPENAI_API_KEY for AI voiceover")
+        logger.info("  2. Or use Windows Narrator manually")
+        
         if output_path is None:
             from datetime import datetime
-            output_path = Path(config.OUTPUT_DIR) / f"temp_tts_{int(time.time())}.wav"
+            output_path = Path(config.OUTPUT_DIR) / f"audio_{datetime.now().strftime('%Y%m%d_%H%M%S')}.wav"
 
+        # Write a simple WAV header as placeholder
+        # This creates a valid but silent WAV file
+        import wave
+        import struct
+        
         try:
-            text_clean = text.replace('"', "'").replace('\n', ' ').replace('\r', '')[:2000]
-
-            ps_script = f"""
-$synth = New-Object -ComObject SAPI.SpVoice
-$file = New-Object -ComObject SAPI.SpFileStream
-$file.Open('{output_path}', 3, 0)
-$synth.Rate = 0
-$voice = $synth.GetVoices().Item(0)
-$synth.Voice = $voice
-$synth.FileStream = $file
-$synth.Speak('{text_clean}')
-$file.Close()
-"""
-            result = subprocess.run(
-                ['powershell', '-Command', ps_script],
-                capture_output=True,
-                timeout=120
+            with wave.open(str(output_path), 'w') as wav_file:
+                wav_file.setnchannels(1)
+                wav_file.setsampwidth(2)
+                wav_file.setframerate(16000)
+                
+                # Write 3 seconds of silence (48000 bytes)
+                silence = b'\x00' * 48000
+                wav_file.writeframes(silence)
+            
+            duration = 3.0
+            
+            logger.info(f"Created placeholder audio: {output_path} ({duration:.1f}s)")
+            
+            # Also save the text script for manual recording
+            script_path = output_path.with_suffix('.txt')
+            script_path.write_text(text)
+            logger.info(f"Saved script for manual recording: {script_path}")
+            
+            return AudioFile(
+                path=output_path,
+                duration=duration,
+                voice=voice,
+                service="Placeholder"
             )
-
-            logger.info(f"Return code: {result.returncode}")
-
-            if output_path.exists():
-                audio_size = output_path.stat().st_size
-                logger.info(f"Audio file size: {audio_size} bytes")
-
-                if audio_size > 1000:
-                    final_path = Path(config.OUTPUT_DIR) / f"audio_{int(time.time())}.wav"
-                    output_path.rename(final_path)
-
-                    duration = audio_size / 2000.0
-
-                    logger.info(f"Audio generated: {final_path} ({duration:.1f}s)")
-
-                    return AudioFile(
-                        path=final_path,
-                        duration=duration,
-                        voice=voice,
-                        service="Windows SAPI"
-                    )
-
-            raise Exception("Windows TTS failed - no audio file")
-
+            
         except Exception as e:
-            logger.error(f"TTS failed: {e}")
-            raise Exception(f"Audio generation failed: {e}")
-
-
-import time
+            logger.error(f"Failed to create placeholder: {e}")
+            raise

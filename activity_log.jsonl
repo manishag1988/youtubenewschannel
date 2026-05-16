@@ -1,1 +1,3 @@
 {"timestamp": "2026-05-16 16:06:09.309", "level": "INFO", "source": "test", "message": "alive check"}
+{"timestamp": "2026-05-16 16:06:25.546", "level": "INFO", "source": "test_module", "message": "Hello from module"}
+{"timestamp": "2026-05-16 16:06:25.549", "level": "INFO", "source": "test_module", "message": "Warning: something"}
