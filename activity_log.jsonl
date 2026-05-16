@@ -1,0 +1,16 @@
+{"timestamp": "2026-05-16 16:13:38.277", "level": "INFO", "source": "run_with_logging", "message": "Activity logging wrapper started", "detail": {"cwd": "D:\\AIprojects\\youtubenewschannel"}}
+{"timestamp": "2026-05-16 16:13:38.278", "level": "INFO", "source": "run_with_logging", "message": "Log interceptor installed"}
+{"timestamp": "2026-05-16 16:13:38.994", "level": "INFO", "source": "run_with_logging", "message": "Patched run_full_workflow"}
+{"timestamp": "2026-05-16 16:13:38.994", "level": "INFO", "source": "run_with_logging", "message": "Launching main workflow", "detail": {"log_file": "D:\\AIprojects\\youtubenewschannel\\activity_log.jsonl", "python": "3.13.7"}}
+{"timestamp": "2026-05-16 16:13:38.995", "level": "INFO", "source": "main", "message": "Starting YouTube Tech News Automator..."}
+{"timestamp": "2026-05-16 16:13:38.997", "level": "INFO", "source": "main", "message": "No API keys - using local services only"}
+{"timestamp": "2026-05-16 16:13:38.999", "level": "INFO", "source": "main", "message": "Initializing production modules..."}
+{"timestamp": "2026-05-16 16:13:39.000", "level": "INFO", "source": "main", "message": "All modules initialized"}
+{"timestamp": "2026-05-16 16:13:39.001", "level": "INFO", "source": "main", "message": "YouTube News Automator initialized"}
+{"timestamp": "2026-05-16 16:13:39.003", "level": "INFO", "source": "YouTubeNewsAutomator", "message": "Created session directory: D:\\AIprojects\\youtubenewschannel\\outputs\\video_20260516_161339"}
+{"timestamp": "2026-05-16 16:13:39.004", "level": "INFO", "source": "main", "message": "============================================================"}
+{"timestamp": "2026-05-16 16:13:39.005", "level": "INFO", "source": "main", "message": "STARTING FULL AUTOMATED WORKFLOW"}
+{"timestamp": "2026-05-16 16:13:39.006", "level": "INFO", "source": "main", "message": "============================================================"}
+{"timestamp": "2026-05-16 16:13:39.006", "level": "INFO", "source": "main", "message": "\n[STEP 1/6] Gathering news..."}
+{"timestamp": "2026-05-16 16:13:40.043", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from techcrunch"}
+{"timestamp": "2026-05-16 16:13:40.974", "level": "INFO", "source": "modules.news_gatherer", "message": "Fetched 10 stories from theverge"}
