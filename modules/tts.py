@@ -50,35 +50,13 @@ class TTSMP3Provider(TTSProvider):
         "emma": "Emma",
     }
 
-    def __init__(self, rate_limiter: RateLimiter = None):
+def __init__(self, api_key: str = None, rate_limiter: RateLimiter = None):
         self.rate_limiter = rate_limiter or RateLimiter()
-        self.base_url = "https://ttsmp3.org/sapi/"
 
     def generate(self, text: str, voice: str = "adam") -> bytes:
-        """Generate audio using TTSMP3"""
-        voice_id = self.VOICE_MAP.get(voice.lower(), "Adam")
-
-        payload = {
-            "text": text,
-            "voice": voice_id,
-            "source": "ttsmp3"
-        }
-
-        try:
-            response = requests.post(
-                self.base_url,
-                data=payload,
-                timeout=60
-            )
-
-            if response.status_code == 200:
-                return response.content
-            else:
-                raise Exception(f"TTSMP3 returned {response.status_code}")
-
-        except Exception as e:
-            logger.error(f"TTSMP3 generation failed: {e}")
-            raise
+        """Generate using SoundTools (Kokoro model)"""
+        logger.warning("SoundTools requires browser-based interaction - skipping")
+        raise Exception("SoundTools requires browser interaction")
 
 
 class SoundToolsProvider(TTSProvider):
