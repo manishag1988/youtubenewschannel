@@ -201,7 +201,7 @@ class YouTubeNewsAutomator:
 
         raise Exception("Audio generation failed")
 
-    def _step_generate_video(self, script: Script) -> List[VideoClip]:
+    def _step_generate_video(self, script):
         """Step 4: Generate video clips from script"""
         prompts = script.broll_prompts if script.broll_prompts else []
         if not prompts:
