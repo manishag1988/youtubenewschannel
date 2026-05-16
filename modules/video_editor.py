@@ -95,7 +95,7 @@ class VideoEditor:
         title_draw.rectangle([0, 0, width, height], outline=(100, 150, 255), width=5)
         title_draw.text((width//2 - 200, height//2 - 50), "TECH NEWS", fill=(255, 255, 255))
         title_draw.text((width//2 - 250, height//2 + 20), "Automated Video", fill=(200, 200, 200))
-        title_path.save(str(title_path))
+        title_img.save(str(title_path))
         logger.info(f"Created title card: {title_path.name}")
 
         if audio_path and audio_path.exists():
