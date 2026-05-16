@@ -238,4 +238,7 @@ class GlobalConfig:
 
     ENABLE_FALLBACKS = True
 
+    OUTPUT_DIR = BASE_DIR / "outputs"
+    OUTPUT_DIR.mkdir(exist_ok=True)
+
 config = GlobalConfig()
