@@ -203,3 +203,7 @@ All notable changes to this project will be documented in this file.
 ### auto: update 16:09
 - **ctivity_log.jsonl**: Deleted
 - **_e2e_test.py**: Added
+
+### auto: update 16:09
+- **e2e_test.py**: Deleted
+- **verify_logger.py**: Deleted
