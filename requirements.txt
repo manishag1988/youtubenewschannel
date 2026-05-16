@@ -1,0 +1,33 @@
+# YouTube Tech News Channel Automation - Dependencies
+# 100% Free AI Tools
+
+# Core
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# RSS/News
+feedparser>=6.0.0
+
+# LLM/API
+openai>=1.12.0
+anthropic>=0.18.0
+google-generativeai>=0.5.0
+
+# Video/Audio Processing
+moviepy>=1.0.3
+Pillow>=10.0.0
+
+# Utilities
+tenacity>=8.2.0
+tqdm>=4.66.0
+
+# Optional: For local video generation (requires GPU)
+# torch>=2.0.0
+# diffusers>=0.25.0
+
+# Optional: For local TTS
+# piper-tts>=1.0.0
+
+# Development
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
