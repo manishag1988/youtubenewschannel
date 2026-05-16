@@ -119,3 +119,6 @@ All notable changes to this project will be documented in this file.
 
 ### auto: update 15:45
 - **tils/logger.py**: Modified
+
+### auto: update 15:51
+- **ain.py**: Modified

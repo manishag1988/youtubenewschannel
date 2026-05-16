@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Optional, Dict, List
 
 from config import config
-from utils.logger import setup_logger, get_logger, ActivityLogger, get_activity_logger
+from utils.logger import setup_logger, get_logger
 from utils.rate_limiter import RateLimiter
 from utils.file_manager import FileManager
 
