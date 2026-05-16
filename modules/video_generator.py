@@ -421,7 +421,7 @@ class VideoGenerator:
         return [p.name for p in self.providers]
 
 
-def _get_color(prompt: str, frame: int) -> tuple:
+def _get_bg_color(prompt: str, frame: int) -> tuple:
     """Get background color based on prompt"""
     prompt_lower = prompt.lower()
 
