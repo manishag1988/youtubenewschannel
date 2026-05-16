@@ -5,15 +5,12 @@ from datetime import datetime
 from pathlib import Path
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-from utils.logger import ActivityLogger
 
 REPO_DIR = os.path.dirname(os.path.abspath(__file__))
 CHANGELOG_PATH = os.path.join(REPO_DIR, 'CHANGELOG.md')
 DEBOUNCE_SECONDS = 10
 IGNORE_DIRS = {'.git', '__pycache__', '.venv', 'venv', 'node_modules', '.gitattributes'}
 IGNORE_EXTS = {'.pyc', '.log'}
-
-_activity = ActivityLogger(Path(REPO_DIR) / "activities.jsonl")
 
 last_change = 0
 timer_active = False
