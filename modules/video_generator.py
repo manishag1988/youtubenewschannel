@@ -119,7 +119,7 @@ class LoreMotionProvider(VideoProvider):
 
     def __init__(self, rate_limiter: RateLimiter = None):
         self.rate_limiter = rate_limiter or RateLimiter()
-        self.base_url = "https://loremotion.com/api"
+        self.base_url = "https://loremotion.com"
 
     def generate(self, prompt: str, duration: int = 5) -> bytes:
         """Generate video using LoreMotion"""
@@ -127,53 +127,43 @@ class LoreMotionProvider(VideoProvider):
 
         try:
             response = requests.post(
-                f"{self.base_url}/generate",
+                f"{self.base_url}/api/generate",
                 json={
                     "prompt": prompt,
-                    "duration": min(duration, 8),
+                    "duration": min(duration, 5),
                     "aspect_ratio": "16:9"
                 },
-                timeout=120
+                timeout=30
             )
 
             if response.status_code == 200:
-                task_id = response.json().get("task_id")
-                return self._wait_for_completion(task_id)
-            else:
-                raise Exception(f"LoreMotion returned {response.status_code}")
+                result = response.json()
+                if "video_url" in result:
+                    return requests.get(result["video_url"]).content
+                elif "task_id" in result:
+                    return self._wait_for_completion(result["task_id"])
+
+            logger.warning(f"LoreMotion returned: {response.status_code} - using placeholder")
+            raise Exception(f"LoreMotion service unavailable")
 
         except Exception as e:
-            logger.error(f"LoreMotion generation failed: {e}")
-            raise
+            logger.warning(f"LoreMotion generation failed: {e}")
+            raise Exception("LoreMotion unavailable")
 
     def _wait_for_completion(self, task_id: str) -> bytes:
         """Wait for video generation to complete"""
-        max_attempts = 40
-
-        for i in range(max_attempts):
+        max_attempts = 20
+        for _ in range(max_attempts):
             time.sleep(3)
-
             try:
-                response = requests.get(
-                    f"{self.base_url}/status/{task_id}"
-                )
-
-                if response.status_code == 200:
-                    data = response.json()
-                    status = data.get("status")
-
-                    if status == "ready":
-                        video_url = data.get("video_url")
-                        if video_url:
-                            return requests.get(video_url).content
-
-                    elif status == "failed":
-                        raise Exception("LoreMotion generation failed")
-
+                resp = requests.get(f"{self.base_url}/api/status/{task_id}", timeout=10)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    if data.get("status") == "ready":
+                        return requests.get(data.get("video_url")).content
             except:
-                pass
-
-        raise Exception("LoreMotion generation timeout")
+                continue
+        raise Exception("LoreMotion timeout")
 
 
 class FreeAIPProvider(VideoProvider):
