@@ -1,3 +1,0 @@
-{"timestamp": "2026-05-16 16:06:57.834", "level": "INFO", "source": "run_with_logging", "message": "Activity logging wrapper started", "detail": {"cwd": "D:\\AIprojects\\youtubenewschannel"}}
-{"timestamp": "2026-05-16 16:06:57.836", "level": "INFO", "source": "run_with_logging", "message": "Log interceptor installed — all module logs will be captured"}
-{"timestamp": "2026-05-16 16:06:57.837", "level": "INFO", "source": "run_with_logging", "message": "Ready — launching main workflow", "detail": {"log_file": "D:\\AIprojects\\youtubenewschannel\\activity_log.jsonl", "python": "3.13.7"}}
