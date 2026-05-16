@@ -61,6 +61,10 @@ $synth.Dispose()
                     cwd=tmp_dir
                 )
 
+                logger.info(f"Return code: {result.returncode}")
+                logger.info(f"STDOUT: {result.stdout.decode()[:200] if result.stdout else 'None'}")
+                logger.info(f"STDERR: {result.stderr.decode()[:200] if result.stderr else 'None'}")
+
                 if tmp_path.exists():
                     audio_size = tmp_path.stat().st_size
                     logger.info(f"Audio file size: {audio_size} bytes")
