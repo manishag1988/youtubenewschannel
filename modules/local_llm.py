@@ -14,7 +14,7 @@ logger = get_logger(__name__)
 class LocalLLM:
     """Use Ollama for local LLM inference - completely free"""
 
-    DEFAULT_MODEL = "llama3.2"
+    DEFAULT_MODEL = "llama3.2:1b"
     FALLBACK_MODELS = ["mistral", "phi3", "gemma:2b"]
 
     def __init__(self, base_url: str = "http://localhost:11434"):
