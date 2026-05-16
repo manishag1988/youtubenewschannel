@@ -229,7 +229,7 @@ class YouTubeNewsAutomator:
 
         raise Exception("Thumbnail generation failed")
 
-    def _step_assemble_video(self, audio_path: Path, video_clips: List[VideoClip], session_dir: Path) -> FinalVideo:
+    def _step_assemble_video(self, audio_path: Path, video_clips, session_dir: Path):
         """Step 6: Assemble final video"""
         clip_paths = [c.path for c in video_clips if c.path.exists()]
 
