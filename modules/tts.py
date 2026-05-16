@@ -183,9 +183,7 @@ class TTSEngine:
         """Initialize TTS providers in priority order"""
         providers = []
 
-        providers.append(TTSMP3Provider(self.rate_limiter))
-
-        providers.append(SoundToolsProvider(self.rate_limiter))
+        providers.append(TTSMP3Provider())
 
         if self.api_keys.get("google_cloud"):
             providers.append(GoogleCloudTTSProvider(
