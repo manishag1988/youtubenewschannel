@@ -96,6 +96,64 @@ youtubenewschannel/
 - Fallbacks ensure workflow never fails
 - Rate limiters prevent service abuse
 
+---
+
+## Running on GitHub Actions (Cloud)
+
+You can run the automation in the cloud without your local machine!
+
+### 1. Push Code to GitHub
+
+```bash
+git add .
+git commit -m "Add GitHub Actions workflow"
+git push origin main
+```
+
+### 2. Configure Secrets (Optional - for better AI quality)
+
+1. Go to your GitHub repo → **Settings** → **Secrets and variables** → **Actions**
+2. Add these secrets (get free keys from each service):
+
+| Secret Name | Service | Free Tier |
+|-------------|---------|-----------|
+| `OPENAI_API_KEY` | OpenAI | Limited |
+| `GEMINI_API_KEY` | Google Gemini | Yes |
+| `KLING_API_KEY` | Kling AI | 66/day |
+| `LEONARDO_API_KEY` | Leonardo AI | 150/day |
+
+**Without secrets**, the app still works using fallback services!
+
+### 3. Run Workflow
+
+1. Go to **Actions** tab in your GitHub repo
+2. Click **YouTube News Automation** → **Run workflow**
+3. Choose number of videos or run on schedule
+
+### 4. Download Outputs
+
+After workflow completes, download artifacts:
+- **generated-content**: Scripts, audio, thumbnails
+- **automation-logs**: Full execution logs
+- **youtube-automation-outputs**: All generated files
+
+---
+
+### Scheduled Runs
+
+The workflow can run automatically. Edit `.github/workflows/run_automation.yml` to adjust:
+
+```yaml
+# Run every day at 8 AM UTC
+schedule:
+  - cron: '0 8 * * *'
+
+# Or manually trigger anytime
+workflow_dispatch:
+```
+
+---
+
 ## License
 
 MIT

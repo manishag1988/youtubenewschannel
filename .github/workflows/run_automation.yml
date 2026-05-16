@@ -1,0 +1,88 @@
+name: YouTube News Automation
+
+on:
+  # Run manually
+  workflow_dispatch:
+    inputs:
+      video_count:
+        description: 'Number of videos to generate'
+        required: false
+        default: '1'
+        type: string
+
+  # Or run on schedule (every day at 8 AM UTC)
+  schedule:
+    - cron: '0 8 * * *'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Set environment variables
+        run: |
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
+          echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> $GITHUB_ENV
+          echo "KLING_API_KEY=${{ secrets.KLING_API_KEY }}" >> $GITHUB_ENV
+          echo "LEONARDO_API_KEY=${{ secrets.LEONARDO_API_KEY }}" >> $GITHUB_ENV
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          KLING_API_KEY: ${{ secrets.KLING_API_KEY }}
+          LEONARDO_API_KEY: ${{ secrets.LEONARDO_API_KEY }}
+
+      - name: Run automation
+        run: python main.py
+        continue-on-error: true
+
+      - name: Upload outputs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: youtube-automation-outputs
+          path: outputs/
+          retention-days: 30
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: automation-logs
+          path: automation.log
+          retention-days: 7
+
+      - name: Upload script and metadata
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: generated-content
+          path: |
+            outputs/*.txt
+            outputs/*.mp3
+            outputs/*.png
+          retention-days: 30
+
+      - name: Create summary
+        run: |
+          echo "## Automation Results" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Workflow completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Check the 'generated-content' artifact for outputs."
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f automation.log ]; then
+            echo "### Recent Logs" >> $GITHUB_STEP_SUMMARY
+            tail -20 automation.log >> $GITHUB_STEP_SUMMARY
+          fi
