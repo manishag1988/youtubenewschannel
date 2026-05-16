@@ -20,10 +20,6 @@ from modules.local_llm import get_script_writer
 from modules.local_tts import TTSEngine
 from modules.local_video import VideoGenerator
 from modules.thumbnail import ThumbnailGenerator, Thumbnail
-from modules.video_editor import VideoEditor, FinalVideo
-from modules.local_llm import Script
-from modules.local_video import VideoClip
-from modules.local_tts import AudioFile
 
 
 logger = get_logger(__name__)
