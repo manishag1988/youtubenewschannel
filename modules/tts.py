@@ -46,7 +46,7 @@ class TTSEngine:
 
             text_clean = text.replace('"', "'").replace('\n', ' ').replace('\r', '')[:2000]
 
-            cmd = f'''powershell -Command "Add-Type -AssemblyName System.Speech; $synth = New-Object System.Speech.Synthesis.SpeechSynthesizer; $synth.SelectVoice('David'); $synth.SetOutputToWaveFile('{tmp_path}'); $synth.Speak('{text_clean}'); $synth.Dispose()"'''
+            cmd = f'''powershell -Command "Add-Type -AssemblyName System.Speech; $synth = New-Object System.Speech.Synthesis.SpeechSynthesizer; $synth.SelectVoice('Microsoft David Desktop'); $synth.SetOutputToWaveFile('{tmp_path.replace(chr(92), chr(92)+chr(92))}'); $synth.Speak('{text_clean}'); $synth.Dispose()"'''
 
             result = subprocess.run(cmd, shell=True, capture_output=True, timeout=120)
 
