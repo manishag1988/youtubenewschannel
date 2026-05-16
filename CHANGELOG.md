@@ -152,3 +152,6 @@ All notable changes to this project will be documented in this file.
 
 ### auto: update 16:05
 - **odules/tts.py**: Modified
+
+### auto: update 16:05
+- **run_with_logging.py**: Added
